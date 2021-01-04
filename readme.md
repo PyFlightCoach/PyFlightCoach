@@ -15,6 +15,8 @@ git submodule update --init --recursive
 source make_conda_env.sh pyflightcoach
 
 ## To use the environment in a jupyter notebook and make plots
-conda install ipykernel plotly ipywidgets
+conda install ipykernel plotly ipywidgets 
 
 python -m ipykernel install --user --name flightcoach
+
+
