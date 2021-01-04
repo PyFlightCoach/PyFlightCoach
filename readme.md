@@ -1,6 +1,6 @@
 # Collection of Python Packages for Handling Flight Log Data
 
-![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
 ## to clone use the recurse-submodules option
 git clone --recurse-submodules
