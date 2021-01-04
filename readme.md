@@ -3,7 +3,7 @@
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
 ## to clone use the recurse-submodules option
-git clone --recurse-submodules
+git clone --recurse-submodules https://github.com/PyFlightCoach/PyFlightCoach.git
 
 ## to update
 git pull
