@@ -29,8 +29,17 @@ def brow():
     b = filedialog.asksaveasfile()
     conv(a, b)
 
+
+def batch():
+    '''asks for a list of bin files, converts them all to csvs in the same folder'''
+    a = filedialog.askopenfilenames()
+    for f in a:
+        conv(f, f.replace('.BIN', '.csv'))
+
+
 if __name__ == "__main__":
     fire.Fire({
         "convert": conv,
-        "browse": brow
+        "browse": brow,
+        "batch": batch
     })
