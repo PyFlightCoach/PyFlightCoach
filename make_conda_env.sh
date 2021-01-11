@@ -3,12 +3,16 @@ echo use existing environment? y/n
 
 read varname
 
-conda create -n $1 python=3.8 numpy pandas pint fire
+if [ $varname == "n" ]; then
+    echo enter new env name
+    read envname
 
+    conda create -n $envname python=3.8
+    conda init bash
+    conda activate $envname
+fi
 
-conda init bash
-conda activate $1
-
+conda install numpy pandas pint fire
 pip install pymavlink
 for SUBMODULE in ArdupilotLogReader FlightData geometry
 do
