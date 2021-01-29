@@ -1,4 +1,0 @@
-numpy
-pandas
-ardupilot_log_reader
-pint
