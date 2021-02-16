@@ -34,7 +34,11 @@ def batch():
     '''asks for a list of bin files, converts them all to csvs in the same folder'''
     a = filedialog.askopenfilenames()
     for f in a:
-        conv(f, f.replace('.BIN', '.csv'))
+        try:
+            conv(f, f.replace('.BIN', '.csv'))
+            print(f)
+        except Exception as ex:
+            print("failed to read ", f)
 
 
 if __name__ == "__main__":
