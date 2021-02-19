@@ -4,6 +4,9 @@
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
+
+TODO currently half way through moving streamlit stuff to examples and making flightplotting a module
+
 ### Cloning
 When cloning use the --recurse-submodules option:
 
@@ -33,7 +36,7 @@ Note the submodules are interdependent, and currently not published anywhere els
 3 geometry
 4 FlightAnalysis
 
-TODO move the streamlit stuff from flightplotting into examples, make flightplotting installable
+
 
 ## To use the environment in a jupyter notebook
 
