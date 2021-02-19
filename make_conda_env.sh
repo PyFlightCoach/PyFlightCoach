@@ -12,9 +12,12 @@ if [ $varname == "n" ]; then
     conda activate $envname
 fi
 
-conda install numpy pandas pint fire
-pip install pymavlink
-for SUBMODULE in ArdupilotLogReader FlightData geometry
+while read requirement; 
+do 
+    conda install --yes -c conda-forge $requirement || pip install $requirement 
+done < requirements.txt
+
+for SUBMODULE in ArdupilotLogReader FlightData geometry FlightAnalysis
 do
     cd $SUBMODULE
     python setup.py develop
