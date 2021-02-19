@@ -4,5 +4,6 @@ pint
 fire
 loguru
 scipy
+plotly
 streamlit 
 pymavlink
