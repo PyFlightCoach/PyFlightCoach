@@ -17,9 +17,4 @@ do
     conda install --yes -c conda-forge $requirement || pip install $requirement 
 done < requirements.txt
 
-for SUBMODULE in ArdupilotLogReader FlightData geometry FlightAnalysis
-do
-    cd $SUBMODULE
-    python setup.py develop
-    cd ..
-done
+source install_submodules.sh

@@ -4,7 +4,28 @@
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
-### To setup
+### Cloning
+When cloning use the --recurse-submodules option
+
+git clone --recurse-submodules https://github.com/PyFlightCoach/PyFlightCoach.git
+
+If you forget, to use the --recurse-submodules option then do this:
+
+git submodule update --init --recursive
+
+
+### Easy setup (with conda) Bash:
+
+source make_conda_env.sh
+
+### Easy setup (with venv) & Bash:
+
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+source install_submodules.sh
+
+### To setup manually
 
 install the requirements in requirements.txt, then cd to each submodule and do: python setup.py develop.
 Note the submodules are interdependent, and currently not published anywhere else, so you need to install them in order:
@@ -14,10 +35,6 @@ Note the submodules are interdependent, and currently not published anywhere els
 4 FlightAnalysis
 
 TODO move the streamlit stuff from flightplotting into examples, make flightplotting installable
-
-### Easy setup (with conda) Bash:
-
-source make_conda_env.sh
 
 ## To use the environment in a jupyter notebook
 
