@@ -5,14 +5,13 @@
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
 ### Cloning
-When cloning use the --recurse-submodules option
+When cloning use the --recurse-submodules option:
 
 git clone --recurse-submodules https://github.com/PyFlightCoach/PyFlightCoach.git
 
-If you forget, to use the --recurse-submodules option then do this:
+If you forget to use the --recurse-submodules option then do this:
 
 git submodule update --init --recursive
-
 
 ### Easy setup (with conda) Bash:
 
