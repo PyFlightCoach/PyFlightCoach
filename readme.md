@@ -1,11 +1,9 @@
-# Collection of Python Packages for Handling Flight Log Data
+# Packages for Handling Flight Log Data
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/goodvertical8.png?raw=true)
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
-
-TODO currently half way through moving streamlit stuff to examples and making flightplotting a module
 
 ### Cloning
 When cloning use the --recurse-submodules option:
@@ -31,11 +29,11 @@ source install_submodules.sh
 
 install the requirements in requirements.txt, then cd to each submodule and do: python setup.py develop.
 Note the submodules are interdependent, and currently not published anywhere else, so you need to install them in order:
-1 ArdupilotLogReader
-2 FlightData
-3 geometry
-4 FlightAnalysis
-
+1 ArdupilotLogReader,
+2 FlightData,
+3 geometry,
+4 FlightAnalysis,
+5 FlightPlotting
 
 
 ## To use the environment in a jupyter notebook
