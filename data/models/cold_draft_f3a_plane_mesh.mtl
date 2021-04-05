@@ -1,0 +1,30 @@
+# Created by FreeCAD <http://www.freecadweb.org>: 'None'
+# Material Count: 4
+
+newmtl material_0
+    Ns 10.000000
+    Ni 1.000000
+    d 1.000000
+    illum 2
+    Kd 0.006049 0.000000 0.000000
+
+newmtl material_1
+    Ns 10.000000
+    Ni 1.000000
+    d 1.000000
+    illum 2
+    Kd 0.223228 0.223228 0.274677
+
+newmtl material_2
+    Ns 10.000000
+    Ni 1.000000
+    d 1.000000
+    illum 2
+    Kd 0.991102 0.080220 0.000000
+
+newmtl material_3
+    Ns 10.000000
+    Ni 1.000000
+    d 1.000000
+    illum 2
+    Kd 1.000000 1.000000 1.000000
