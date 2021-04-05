@@ -16,6 +16,7 @@ import tkinter as tk
 import easygui
 
 
+
 st.markdown(
         f"""
 <style>
@@ -27,7 +28,7 @@ st.markdown(
         unsafe_allow_html=True,
     )
 
-logfile = 'data/logs/144.csv'
+logfile = '/home/tom/Desktop/logs/00000155.csv'
 
 if st.sidebar.button("read log csv"):
     try:
