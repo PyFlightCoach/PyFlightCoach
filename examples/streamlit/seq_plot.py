@@ -18,6 +18,7 @@ import easygui
 
 
 st.markdown(
+
         f"""
 <style>
     .reportview-container .main .block-container{{
@@ -28,7 +29,7 @@ st.markdown(
         unsafe_allow_html=True,
     )
 
-logfile = '/home/tom/Desktop/logs/00000155.csv'
+logfile = '/home/tom/Desktop/logs/00000167.csv'
 
 if st.sidebar.button("read log csv"):
     try:
@@ -43,8 +44,7 @@ bin = Flight.from_csv(logfile)
 
 @st.cache  # TODO this may not notice changes to submodules
 def load_data(bin):
-    flight = bin.subset(50, 490)
-    return flight, Section.from_flight(flight, FlightLine.from_covariance(flight))
+    return bin, Section.from_flight(bin, FlightLine.from_covariance(bin))
 
 
 flight, seq = load_data(bin)
@@ -87,7 +87,8 @@ st.plotly_chart(
         make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace),
         layout=go.Layout(
             margin=dict(l=0, r=0, t=0, b=0),
-            scene=dict(aspectmode='data')
+            scene=dict(aspectmode='data'),
+            height=800,
         )),
     use_container_width=True
 )
