@@ -2,6 +2,8 @@
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/goodvertical8.png?raw=true)
 
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/vertical_8_dtw.png?raw=true)
+
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
 
 
