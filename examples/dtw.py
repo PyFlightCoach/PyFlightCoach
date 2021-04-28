@@ -71,7 +71,7 @@ def plotresults(flown, segments):
     fig.add_trace(tt[0])
     fig.add_trace(tt[1])
     # fig.update_traces(line=dict(dash='dash'))
-    fig.update_traces(line=dict(width=3))
+    fig.update_traces(line=dict(width=1))
 
     for tr in fig['data']:
         tr['showlegend'] = False
@@ -81,19 +81,37 @@ def plotresults(flown, segments):
         fig.add_trace(go.Scatter3d(x=seg.x, y=seg.y, z=seg.z,
                       mode='lines', line=dict(width=6), name=segname))
 
+
     fig.update_layout(
         margin=dict(l=0, r=0, t=0, b=0),
-        scene=dict(aspectmode='data')
+        scene=dict(
+            aspectmode='data', 
+            xaxis=dict(showticklabels=False),
+            yaxis=dict(showticklabels=False),
+            zaxis=dict(showticklabels=False)
+            ),
+        legend=dict(
+            font=dict(size=20),
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01
+        ),
+        scene_camera=dict(
+            up=dict(x=0, y=0, z=0),
+            center=dict(x=0, y=0, z=0),
+            eye=dict(x=0.0, y=-1.0, z=-0.5),
+            projection=dict(type='perspective')
+        )
+        
+        #zaxis= {'showgrid': False, 'zeroline': False, 'visible': False},
     )
-    fig.update_layout(legend=dict(
-        font=dict(size=20),
-        yanchor="top",
-        y=0.99,
-        xanchor="left",
-        x=0.01
-    ))
+        
 
     return fig
+
+
+
 
 
 flight = Flight.from_csv("data/logs/00000136.csv")
@@ -110,5 +128,5 @@ gbsegments = do_dtw(flown_golfball, generated_golfball)
 v8plot = plotresults(flown_vertical_8, v8segments)
 gbplot = plotresults(flown_golfball, gbsegments)
 
-v8plot.show()
-gbplot.show()
+# v8plot.show()
+# gbplot.show()
