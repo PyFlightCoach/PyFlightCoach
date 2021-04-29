@@ -1,10 +1,14 @@
 # Packages for Handling Flight Log Data
 
-![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/goodvertical8.png?raw=true)
+
+
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/vertical_8_comparison.png?raw=true)
 
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/vertical_8_dtw.png?raw=true)
 
-![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/FAI_P21.png?raw=true)
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/gb_comparison.png?raw=true)
+
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/gb_dtw.png?raw=true)
 
 
 ### Cloning
