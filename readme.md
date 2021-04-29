@@ -1,4 +1,4 @@
-# Packages for Handling Flight Log Data
+## Precision Aerobatic Flight Post Processing Tools
 
 This project contains a collection of packages for playing with flight data, principally aimed at plotting and analysing precision aerobatics. 
 
@@ -10,7 +10,7 @@ The following packages are included:
 
 ArdupilotLogReader - reads the requested fields of an ardupilot bin file to a dict of Pandas Dataframes. 
 
-FlightData - Picks up the relevant fields from the log reader and converts them to a consistent set of units. This is separate from the log reader as it should be independent of the type of log if more readers were needed.
+FlightData - Picks up the relevant fields from the log reader and converts them to a consistent set of units. 
 
 geometry - Useful tools for handling geometry. contains classes that wrap around a point, quaternion, coordinate frame etc. 
 
