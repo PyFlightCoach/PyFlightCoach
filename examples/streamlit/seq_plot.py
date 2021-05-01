@@ -7,6 +7,7 @@ import pandas as pd
 
 import plotly.graph_objects as go
 from flightanalysis import Section, State, FlightLine
+from flightanalysis.flightline import Box
 from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
 
@@ -14,7 +15,11 @@ from flightplotting.model import OBJ
 from geometry import Point, Quaternion, Transformation
 import os
 import tkinter as tk
+from scripts.manage_logs import latest_log, find_logs, add_logs
 
+
+print(add_logs(find_logs('/media/'))) 
+print('ready')
 
 st.markdown(
 
@@ -33,21 +38,20 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
 ))
 
 fp = st.sidebar.file_uploader("select log csv", "csv")
-bin = Flight.from_csv(fp)
-
+if fp:
+    bin = Flight.from_csv(fp)
+else:
+    bin = Flight.from_csv('data/private_logs/' + latest_log())
 # st.sidebar.text(fp.name)
 
-flightline_type = st.sidebar.radio("flightline definition", [
-                                   "covariance", "initial_position"], )
+#flightline_type = st.sidebar.radio("flightline definition", [
+#                                   "covariance", "initial_position"], )
+flightline = FlightLine.from_box(Box.from_json('examples/notebooks/flightlines/gordano_box.json'))
 
 
-@st.cache
 def load_data(bin):
-    if flightline_type == "covariance":
-        return bin, Section.from_flight(bin, FlightLine.from_covariance(bin))
-    elif flightline_type == "initial_position":
-        return bin, Section.from_flight(bin, FlightLine.from_initial_position(bin))
-
+    return bin, Section.from_flight(bin, flightline)
+    
 
 flight, seq = load_data(bin)
 
@@ -60,7 +64,7 @@ cg_trace = st.sidebar.checkbox("Show CG Trace", False)
 ttrace = st.sidebar.checkbox("Show Tip Trace", True)
 btrace = st.sidebar.checkbox("Show Box Trace", True)
 
-
+perspective = st.sidebar.checkbox("perspective", True)
 plot_range = st.slider(
     "plot range", 0.0, flight.duration, (0.0, flight.duration))
 
@@ -82,7 +86,12 @@ def make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace):
 st.plotly_chart(
     go.Figure(
         make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace),
-        layout=go.Layout(template="flight3d+judge_view")
+        layout=go.Layout(
+            template="flight3d+judge_view", 
+            height=800, 
+            scene_camera=dict(
+                projection = dict(type='perspective' if perspective else 'orthographic')
+            ))
     ),
     use_container_width=True
 )
