@@ -6,7 +6,10 @@ from tkinter import filedialog
 from glob import glob
 import os
 import shutil
-from scripts.manage_logs import add_logs, find_logs
+from scripts.manage_logs import LogRegister
+from pathlib import Path
+
+reg = LogRegister.from_folder(Path('data/private_logs'))
 
 def conv(a: str, b: str):
     """reads an ardupilot bin file and writes it to a csv.
@@ -46,12 +49,13 @@ def batch():
 
 
 def usb():
-    add_logs(find_logs('/media/'))
+    '''finds all the bin files on memory stick (linux), copies them to the data/private_logs
+    folder with a uuid name, appends the register.csv'''
+    reg.search_folder()
 
 def folder(folder: str):
-    add_logs(find_logs(folder))
-
-    
+    reg.search_folder(Path(folder))
+  
 
 if __name__ == "__main__":
     fire.Fire({

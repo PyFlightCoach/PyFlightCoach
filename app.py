@@ -15,14 +15,16 @@ from flightplotting.model import OBJ
 from geometry import Point, Quaternion, Transformation
 import os
 import tkinter as tk
-from scripts.manage_logs import latest_log, find_logs, add_logs
+from pyflightcoach.manage_logs import LogRegister
+from pathlib import Path
 
 
-print(add_logs(find_logs('/media/'))) 
-print('ready')
+reg = LogRegister.from_folder(Path('data/private_logs'))
+
+print(reg.search_folder())
+
 
 st.markdown(
-
     f"""
 <style>
     .reportview-container .main .block-container{{
@@ -37,17 +39,10 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
     Point(0.75, 0, 0), Quaternion.from_euler(Point(np.pi, 0, -np.pi/2))
 ))
 
-fp = st.sidebar.file_uploader("select log csv", "csv")
-if fp:
-    bin = Flight.from_csv(fp)
-else:
-    bin = Flight.from_csv('data/private_logs/' + latest_log())
-# st.sidebar.text(fp.name)
 
-#flightline_type = st.sidebar.radio("flightline definition", [
-#                                   "covariance", "initial_position"], )
+bin = reg.latest_log_handle().flight()
+
 flightline = FlightLine.from_box(Box.from_json('examples/notebooks/flightlines/gordano_box.json'))
-
 
 def load_data(bin):
     return bin, Section.from_flight(bin, flightline)
