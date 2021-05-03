@@ -18,13 +18,13 @@ from pathlib import Path
 class LogHandle:
     def __init__(self, data: pd.Series, folder: Path):
         self.folder = folder
-        self.data=data
+        self.data = data
         self.name = self.data.name
         self.bin = self.folder / "{}.BIN".format(self.data.name)
         self.csv = self.folder / "{}.csv".format(self.data.name)
         self._flight = None
-    
-    def __getattr__(self, name: str): 
+        
+    def __getattr__(self, name: str):
         return self.data[name]
 
     def flight(self):
@@ -32,13 +32,14 @@ class LogHandle:
             if os.path.exists(self.csv):
                 self._flight = Flight.from_csv(self.csv)
             else:
-                self._flight = Flight.from_log(self.bin)
+                self._flight = Flight.from_log(str(self.bin))
                 self._flight.to_csv(self.csv)
         return self._flight
 
 
-
 class LogRegister:
+    privatecols = ['uid', 'stick_name', 'filesize', 'date_added']
+
     def __init__(self, data: pd.DataFrame, folder: Path):
         self.data = data
         self.folder = folder
@@ -52,8 +53,7 @@ class LogRegister:
             )
         except FileNotFoundError:
             reg = LogRegister(
-                pd.DataFrame(columns=['uid', 'stick_name',
-                             'filesize', 'date_added']).set_index('uid'),
+                pd.DataFrame(columns=LogRegister.privatecols).set_index('uid'),
                 folder
             )
             reg.save()
@@ -100,12 +100,38 @@ class LogRegister:
         self.save()
         return self.data.loc[new_name]
 
+    def save_log(self, file, metadata: dict = {}):
+        existinglogs = self.select_logs(dict(
+            stick_name=file.name,
+            filesize=file.size
+        ))
+        if len(existinglogs) == 0:
+            new_name = str(uuid.uuid4())
+            with open(self.folder / "{}.BIN".format(new_name), 'wb') as f:
+                f.write(file.read())
+            self.data = self.data.append(
+                pd.DataFrame(dict(uid=new_name, stick_name=file.name,
+                                  filesize=file.size,
+                                  date_added=datetime.datetime.now(),
+                                  **metadata), index=[0]).set_index('uid')
+            )
+            self.save()
+            return self.data.loc[new_name]
+
+        else:
+            return existinglogs.iloc[0]
+
     def append_metadata(self, conditions: dict, newmetadata: dict):
         logs = self.select_logs(conditions)
+        return self.update_metadata(logs.index, newmetadata)
+
+    def update_metadata(self, uids, newmetadata: dict):
         for key, val in newmetadata.items():
-            self.data.loc[logs.index, key] = val
+            if not key in LogRegister.privatecols:
+                self.data.loc[uids, key] = val
         self.save()
-        return self.data.loc[logs.index]
+        return self.data.loc[uids]
+
 
     def get_or_register_log(self, binfile: Path, metadata: dict = {}):
         if self.check_log_exists(binfile):
@@ -120,14 +146,17 @@ class LogRegister:
     def search_folder(self, folder: Path = Path('/media/')):
         uids = []
         for file in folder.glob("**/*.BIN"):
-            uids.append(self.get_or_register_log(file).uid)
+            uids.append(self.get_or_register_log(file).name)
         return self.data[uids]
 
     def latest_log(self):
-        return self.data.loc[self.data.date_added ==self.data.date_added.max()].iloc[0]
+        return self.data.loc[self.data.date_added == self.data.date_added.max()].iloc[0]
 
     def latest_log_handle(self):
         return LogHandle(self.latest_log(), self.folder)
 
-    def handles(self, rows:pd.DataFrame):
+    def handles(self, rows: pd.DataFrame):
         return [LogHandle(row, self.folder) for index, row in rows.iterrows()]
+
+    def handle(self, row: pd.Series) -> LogHandle:
+        return LogHandle(row, self.folder)

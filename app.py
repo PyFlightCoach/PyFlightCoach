@@ -21,7 +21,7 @@ from pathlib import Path
 
 reg = LogRegister.from_folder(Path('data/private_logs'))
 
-print(reg.search_folder())
+#print(reg.search_folder())
 
 
 st.markdown(
@@ -39,8 +39,15 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
     Point(0.75, 0, 0), Quaternion.from_euler(Point(np.pi, 0, -np.pi/2))
 ))
 
+try:
+    bin = reg.latest_log_handle().flight()
+except:
+    pass
 
-bin = reg.latest_log_handle().flight()
+fp = st.sidebar.file_uploader("select bin file", "BIN")
+if fp:
+    new_log = reg.save_log(fp)
+    bin = reg.latest_log_handle().flight()
 
 flightline = FlightLine.from_box(Box.from_json('examples/notebooks/flightlines/gordano_box.json'))
 

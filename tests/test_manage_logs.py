@@ -81,3 +81,8 @@ class TestLogRegister(unittest.TestCase):
 
         hands = self.reg.handles(self.reg.data.iloc[:2])
         self.assertEqual(hands[0].csv, self.reg.folder / '{}.csv'.format(hands[0].name))
+
+    def test_save_log(self):
+        with open('data/logs/00000150.BIN', 'rb') as fp:
+            log = self.reg.save_log(fp)
+        self.assertEqual(len(self.reg.data), 1)
