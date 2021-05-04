@@ -15,14 +15,12 @@ from flightplotting.model import OBJ
 from geometry import Point, Quaternion, Transformation
 import os
 import tkinter as tk
-from pyflightcoach.manage_logs import LogRegister
+from pyflightcoach.log_register.access import new_session
+from pyflightcoach.log_register.tables import Log
 from pathlib import Path
 
 
-reg = LogRegister.from_folder(Path('data/private_logs'))
-
-#print(reg.search_folder())
-
+register = new_session()
 
 st.markdown(
     f"""
@@ -39,21 +37,30 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
     Point(0.75, 0, 0), Quaternion.from_euler(Point(np.pi, 0, -np.pi/2))
 ))
 
-try:
-    bin = reg.latest_log_handle().flight()
-except:
-    pass
-
 fp = st.sidebar.file_uploader("select bin file", "BIN")
 if fp:
-    new_log = reg.save_log(fp)
-    bin = reg.latest_log_handle().flight()
+    log = register.register_log(fp)
+else:
+    log = register.latest_log()
 
-flightline = FlightLine.from_box(Box.from_json('examples/notebooks/flightlines/gordano_box.json'))
+
+
+if st.sidebar.button("scan memory stick"):
+    register.register_folder()
+
+
+loading = st.empty()
+loading.text("reading log .....")
+bin = log.flight()
+loading.empty()
+
+flightline = FlightLine.from_box(Box.from_json(
+    'examples/notebooks/flightlines/gordano_box.json'))
+
 
 def load_data(bin):
     return bin, Section.from_flight(bin, flightline)
-    
+
 
 flight, seq = load_data(bin)
 
@@ -89,11 +96,18 @@ st.plotly_chart(
     go.Figure(
         make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace),
         layout=go.Layout(
-            template="flight3d+judge_view", 
-            height=800, 
+            template="flight3d+judge_view",
+            height=800,
             scene_camera=dict(
-                projection = dict(type='perspective' if perspective else 'orthographic')
+                projection=dict(
+                    type='perspective' if perspective else 'orthographic')
             ))
     ),
     use_container_width=True
 )
+
+
+sequence = st.sidebar.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
+if st.sidebar.button("save sequence selection"):
+    register.set_sequence(log, sequence)
+
