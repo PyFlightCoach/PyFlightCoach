@@ -37,16 +37,16 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
     Point(0.75, 0, 0), Quaternion.from_euler(Point(np.pi, 0, -np.pi/2))
 ))
 
+scan_folder = st.sidebar.text_input("folder to scan", "/media/")
+if st.sidebar.button("scan folder"):
+    register.register_folder(Path(scan_folder))
+
 fp = st.sidebar.file_uploader("select bin file", "BIN")
 if fp:
     log = register.register_log(fp)
 else:
     log = register.latest_log()
 
-
-
-if st.sidebar.button("scan memory stick"):
-    register.register_folder()
 
 
 loading = st.empty()
