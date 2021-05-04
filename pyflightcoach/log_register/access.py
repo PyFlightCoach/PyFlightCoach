@@ -77,8 +77,7 @@ def new_session(folder:str="data/private_logs/"):
     except FileExistsError:
         pass
 
-    if folder is not None:
-        Log.rootfolder = Path(folder)
+    Log.rootfolder = Path(folder)
     
     engine, Session = create_db("sqlite:///{}register.db".format(folder))
 
