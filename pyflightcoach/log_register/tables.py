@@ -4,14 +4,12 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
 from typing import Union
 from pathlib import Path
-from io import BytesIO
 from uuid import uuid4
 from shutil import copyfile
 from flightdata import Flight
 import io
 from streamlit.uploaded_file_manager import UploadedFile
-from datetime import datetime, timedelta
-from sqlalchemy.sql.functions import concat
+import os
 
 Base = declarative_base()
 
@@ -43,7 +41,8 @@ class Log(Base):
         return Log(
             filesize=file.size,
             stick_name = Path(file.name).name,
-            bin_file = str(binpath)
+            bin_file = str(binpath),
+            csv_file= str(Log.rootfolder / '{}.csv'.format(new_name))
         )
 
     @staticmethod
@@ -55,17 +54,16 @@ class Log(Base):
         return Log(
             filesize=file.stat().st_size,
             stick_name = file.name,
-            bin_file = str(copyfile(file, Log.rootfolder / '{}.BIN'.format(new_name)))
+            bin_file = str(copyfile(file, Log.rootfolder / '{}.BIN'.format(new_name))),
+            csv_file= str(Log.rootfolder / '{}.csv'.format(new_name))
         )
 
     def flight(self):
-        if self.csv_file:
+        if os.path.exists(self.csv_file):
             return Flight.from_csv(self.csv_file)
         else:
             flight = Flight.from_log(str(self.bin_file))
-            csv_name = self.bin_file.replace(".BIN", ".csv")
-            flight.to_csv(csv_name)
-            self.csv_file = csv_name
+            flight.to_csv(self.csv_file)
             return flight
   
 

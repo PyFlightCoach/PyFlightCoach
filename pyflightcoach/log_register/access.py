@@ -70,7 +70,6 @@ class _Access:
             log.sequence=seq
         self.session.commit()
 
-
 def new_session(folder:str="data/private_logs/"):
     try:
         os.mkdir(folder)

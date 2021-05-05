@@ -49,20 +49,20 @@ else:
 
 
 
-loading = st.empty()
-loading.text("reading log .....")
-bin = log.flight()
-loading.empty()
 
 flightline = FlightLine.from_box(Box.from_json(
     'examples/notebooks/flightlines/gordano_box.json'))
 
-
-def load_data(bin):
+def load_data(log):
+    bin = log.flight()  
     return bin, Section.from_flight(bin, flightline)
 
 
-flight, seq = load_data(bin)
+loading = st.empty()
+loading.text("reading log .....")
+
+flight, seq = load_data(log)
+loading.empty()
 
 npoints = st.sidebar.number_input("Number of Models", 0, 100, value=40)
 scale = st.sidebar.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
