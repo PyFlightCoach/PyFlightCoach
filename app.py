@@ -125,3 +125,6 @@ if st.sidebar.button("save sequence selection"):
     register.set_sequence(log, sequence)
 
 
+with st.beta_expander("Scores"):
+    seqdf = pd.read_csv("data/sequences/{}.csv".format(sequence))
+    st.dataframe(seqdf)
