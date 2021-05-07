@@ -57,7 +57,7 @@ def do_dtw(flown, generated):
 
 
 
-flight = Flight.from_csv("data/logs/00000136.csv")
+flight = Flight.from_csv("data/logs/flight_csvs/00000136.csv")
 sec = Section.from_flight(flight, FlightLine.from_covariance(flight))
 
 

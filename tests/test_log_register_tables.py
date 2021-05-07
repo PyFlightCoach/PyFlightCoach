@@ -26,7 +26,7 @@ class TestLog(unittest.TestCase):
         return super().tearDown()
 
     def test_register_log(self):
-        newlog = Log.register_bin(Path('data/logs/00000150.BIN'))
+        newlog = Log.register_bin(Path('data/logs/bins/00000150.BIN'))
         self.assertIsInstance(newlog, Log)
         #        self.assertEqual(path.bin_file, )
         allbins = [f for f in self.path.rglob('*.BIN')]
@@ -41,7 +41,7 @@ class TestLog(unittest.TestCase):
         self.assertEqual(str(allcsvs[0]), newlog.csv_file)
 
     def test_register_bin_uploaded(self):
-        with open(Path('data/logs/00000150.BIN'), 'rb') as f:
+        with open(Path('data/logs/bins/00000150.BIN'), 'rb') as f:
             newlog = Log.register_bin(UploadedFile(
                 UploadedFileRec(0, f.name, 'BIN', f.read())))
         self.assertIsInstance(newlog, Log)

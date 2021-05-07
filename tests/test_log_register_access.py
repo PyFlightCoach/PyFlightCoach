@@ -35,30 +35,30 @@ class TestAccess(unittest.TestCase):
 
 
     def test_register_log(self):
-        new_log = self.access.register_log(Path('data/logs/00000150.BIN'))
-        with open(Path('data/logs/00000150.BIN'), 'rb') as f:
+        new_log = self.access.register_log(Path('data/logs/bins/00000150.BIN'))
+        with open(Path('data/logs/bins/00000150.BIN'), 'rb') as f:
             same_log = self.access.register_log(UploadedFile(
                 UploadedFileRec(0, f.name, 'BIN', f.read())))
         self.assertEqual(new_log.bin_file, same_log.bin_file)
 
     def test_last_log(self):
-        l1 = self.access.register_log(Path('data/logs/00000150.BIN'))
-        l2 = self.access.register_log(Path('data/logs/00000130.BIN'))
-        l3 = self.access.register_log(Path('data/logs/00000100.BIN'))
+        l1 = self.access.register_log(Path('data/logs/bins/00000150.BIN'))
+        l2 = self.access.register_log(Path('data/logs/bins/00000130.BIN'))
+        l3 = self.access.register_log(Path('data/logs/bins/00000100.BIN'))
         llog = self.access.latest_log()
         self.assertEqual(llog.bin_file, l3.bin_file)
 
     def test_todays_logs(self):
-        l1 = self.access.register_log(Path('data/logs/00000150.BIN'))
-        l2 = self.access.register_log(Path('data/logs/00000130.BIN'))
-        l3 = self.access.register_log(Path('data/logs/00000100.BIN'))
+        l1 = self.access.register_log(Path('data/logs/bins/00000150.BIN'))
+        l2 = self.access.register_log(Path('data/logs/bins/00000130.BIN'))
+        l3 = self.access.register_log(Path('data/logs/bins/00000100.BIN'))
 
         llog = self.access.todays_logs()
         self.assertEqual(len(llog), 3)
 
     def test_register_folder(self):
         logs = self.access.register_folder(Path('data/logs/'))
-        self.assertEqual(len(logs), 9)
+        self.assertEqual(len(logs), 3)
 
     def test_set_sequence(self):
         self.access.register_folder(Path('data/logs/'))
