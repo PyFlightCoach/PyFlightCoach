@@ -18,6 +18,9 @@ FlightAnalysis - Tools for performing analysis on the flight data, such as rotat
 
 FlightPlotting - Handy tools for creating plotly plots of the flight data. The plots below were created using this package.
 
+![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/goodP.png?raw=true)
+First pass at an automatically generated P21 sequence
+
 ![alt text](https://github.com/PyFlightCoach/PyFlightCoach/blob/main/vertical_8_comparison.png?raw=true)
 A flown vertical 8 recorded using the flight logger (in grey), compared to a generated template vertical 8 (in orange). 
 
