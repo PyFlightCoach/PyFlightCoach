@@ -26,7 +26,7 @@ flight = Flight.from_csv("data/logs/flight_csvs/00000136.csv")
 flown = Section.from_flight(flight, FlightLine.from_covariance(flight)).subset(102, 490)  # 490
 
 
-plotsec(p21, obj, 7, 100, color='orange').show()
+plotsec(template, obj, 7, 100, color='orange').show()
 
 
 plotsec(flown, obj, 6.0).show()

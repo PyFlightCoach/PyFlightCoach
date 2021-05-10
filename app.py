@@ -50,18 +50,14 @@ with st.sidebar.beta_expander("log selection"):
 if bdb:
     sumdf = register.summary().iloc[::-1]
     st.dataframe(sumdf)
-    logid = st.number_input("enter log to view", 0, sumdf.id.max(), sumdf.iloc[0].id)
+    logid = st.number_input("enter log id", 0, sumdf.id.max(), sumdf.iloc[0].id)
     if st.button("confirm"):
         register.set_current(logid)
-
 
 if fp:
     log = register.register_log(fp)
 else:
     log = register.current_log()
-
-
-
 
 loading = st.empty()
 loading.text("reading log .....")
@@ -70,7 +66,10 @@ loading.text("reading log .....")
 def read_log(csv):
     return Flight.from_csv(csv)
 
-flight = read_log(log.csv_file)
+if not os.path.exists(log.csv_file):
+    flight = log.flight()
+else:
+    flight = read_log(log.csv_file)
 
 with st.sidebar.beta_expander("flightline setup"):
     fltype = st.radio("method", ["json", "covariance", "initial position"], 0)
@@ -97,7 +96,6 @@ seq = get_section(flight, flightline)
 loading.empty()
 
 with st.sidebar.beta_expander("Plot Controls"):
-
     npoints = st.number_input("Number of Models", 0, 100, value=40)
     scale = st.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
     scaled_obj = obj.scale(scale)
@@ -110,38 +108,8 @@ with st.sidebar.beta_expander("Plot Controls"):
     perspective = st.checkbox("perspective", True)
 
 
-
 plot_range = st.slider(
     "plot range", 0.0, flight.duration, (0.0, flight.duration))
-
-
-def make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace):
-    sec = seq.subset(*plot_range)
-    traces = []
-    if showmesh:
-        traces += [mesh for mesh in meshes(scaled_obj, npoints, sec, 'orange')]
-    if cg_trace:
-        traces += [cgtrace(sec)]
-    if ttrace:
-        traces += tiptrace(sec, scale * 1.85)
-    if btrace:
-        traces += boxtrace()
-    return traces
-
-
-st.plotly_chart(
-    go.Figure(
-        make_plot_data(seq, plot_range, npoints, showmesh, cgtrace, ttrace),
-        layout=go.Layout(
-            template="flight3d+judge_view",
-            height=800,
-            scene_camera=dict(
-                projection=dict(
-                    type='perspective' if perspective else 'orthographic')
-            ))
-    ),
-    use_container_width=True
-)
 
 
 with st.sidebar.beta_expander("Sequence Setup"):
@@ -158,9 +126,46 @@ with st.sidebar.beta_expander("Sequence Setup"):
     def read_schedule(name, dir):
         return Section.from_schedule(Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
 
-    template = read_schedule(sequence, direction)
-
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
-    
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
-    
+
+    if st.checkbox("run_dtw"):
+        template = read_schedule(sequence, direction)
+
+        @st.cache
+        def do_dtw(sec, temp):
+            return Section.align(sec.subset(start, stop), temp)
+
+        dist, aligned = do_dtw(seq, template)
+        manoeuvre = st.radio("select manoeuvre", aligned.manoeuvre.unique())
+        plotsec = Section(aligned.data.loc[aligned.manoeuvre==manoeuvre, :])
+    else:
+        plotsec = seq.subset(*plot_range)
+
+
+def make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace):
+    traces = []
+    if showmesh:
+        traces += [mesh for mesh in meshes(scaled_obj, npoints, sec, 'orange')]
+    if cg_trace:
+        traces += [cgtrace(sec)]
+    if ttrace:
+        traces += tiptrace(sec, scale * 1.85)
+    if btrace:
+        traces += boxtrace()
+    return traces
+
+
+st.plotly_chart(
+    go.Figure(
+        make_plot_data(plotsec, npoints, showmesh, cgtrace, ttrace),
+        layout=go.Layout(
+            template="flight3d+judge_view",
+            height=800,
+            scene_camera=dict(
+                projection=dict(
+                    type='perspective' if perspective else 'orthographic')
+            ))
+    ),
+    use_container_width=True
+)
