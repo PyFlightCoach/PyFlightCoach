@@ -37,3 +37,4 @@ with open("FlightAnalysis/schedules/P21.json", "r") as f:
         )
 
 plotsec(p21, obj, 7, 100, color='orange').show()
+

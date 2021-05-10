@@ -1,0 +1,233 @@
+{
+  "version": 1.2,
+  "comments": "DO NOT EDIT\n",
+  "name": "UK_England_Bristol_AMARC2002_F3A_P21_21_05_10_00000164.json",
+  "view": {
+    "position": {
+      "x": -120,
+      "y": 130.50000000000003,
+      "z": 264.99999999999983
+    },
+    "target": {
+      "x": -22,
+      "y": 160,
+      "z": -204
+    }
+  },
+  "parameters": {
+    "rotation": 0.0,
+    "start": 10282,
+    "stop": 11359,
+    "moveEast": -4.058614781625449,
+    "moveNorth": -0.6443236815173403,
+    "wingspan": 5,
+    "modelwingspan": 5,
+    "elevate": 0,
+    "originLat": 51.4593999,
+    "originLng": -2.7913727,
+    "originAlt": 6.03,
+    "pilotLat": 51.4594364,
+    "pilotLng": -2.7913634,
+    "pilotAlt": 0,
+    "centerLat": 51.45850267286917,
+    "centerLng": -2.79049495516647,
+    "centerAlt": 0,
+    "schedule": [
+      "F3A",
+      "P21"
+    ]
+  },
+  "mans": [
+    {
+      "name": "tkoff",
+      "id": "sp_0",
+      "sp": 0,
+      "wd": 3,
+      "start": 0,
+      "stop": 778,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "v8",
+      "id": "sp_1",
+      "sp": 1,
+      "wd": 10.019149831649832,
+      "start": 778,
+      "stop": 1791,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "stall",
+      "id": "sp_2",
+      "sp": 2,
+      "wd": 5.152988215488215,
+      "start": 1791,
+      "stop": 2312,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "sqL",
+      "id": "sp_3",
+      "sp": 3,
+      "wd": 7.961910774410775,
+      "start": 2312,
+      "stop": 3117,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": 9,
+      "id": "sp_4",
+      "sp": 4,
+      "wd": 5.598063973063973,
+      "start": 3117,
+      "stop": 3683,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "ke",
+      "id": "sp_5",
+      "sp": 5,
+      "wd": 3.540824915824916,
+      "start": 3683,
+      "stop": 4041,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "sS",
+      "id": "sp_6",
+      "sp": 6,
+      "wd": 3.39246632996633,
+      "start": 4041,
+      "stop": 4384,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "golf",
+      "id": "sp_7",
+      "sp": 7,
+      "wd": 5.884890572390573,
+      "start": 4384,
+      "stop": 4979,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "sFin",
+      "id": "sp_8",
+      "sp": 8,
+      "wd": 5.301346801346801,
+      "start": 4979,
+      "stop": 5515,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "dImm",
+      "id": "sp_9",
+      "sp": 9,
+      "wd": 7.65530303030303,
+      "start": 5515,
+      "stop": 6289,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "hB",
+      "id": "sp_10",
+      "sp": 10,
+      "wd": 5.894781144781145,
+      "start": 6289,
+      "stop": 6885,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "rollC",
+      "id": "sp_11",
+      "sp": 11,
+      "wd": 2.353956228956229,
+      "start": 6885,
+      "stop": 7123,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "tHat",
+      "id": "sp_12",
+      "sp": 12,
+      "wd": 7.220117845117845,
+      "start": 7123,
+      "stop": 7853,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "Z",
+      "id": "sp_13",
+      "sp": 13,
+      "wd": 5.301346801346801,
+      "start": 7853,
+      "stop": 8389,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "com",
+      "id": "sp_14",
+      "sp": 14,
+      "wd": 5.7563131313131315,
+      "start": 8389,
+      "stop": 8971,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "rollC",
+      "id": "sp_15",
+      "sp": 15,
+      "wd": 2.0671296296296298,
+      "start": 8971,
+      "stop": 9180,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "sqL",
+      "id": "sp_16",
+      "sp": 16,
+      "wd": 3.827651515151515,
+      "start": 9180,
+      "stop": 9567,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "aV",
+      "id": "sp_17",
+      "sp": 17,
+      "wd": 7.0717592592592595,
+      "start": 9567,
+      "stop": 10282,
+      "sel": false,
+      "background": ""
+    },
+    {
+      "name": "Lnd",
+      "id": "sp_18",
+      "sp": 18,
+      "wd": 3,
+      "start": 10282,
+      "stop": 11359,
+      "sel": true,
+      "background": "dodgerblue"
+    }
+  ],
+  "data": []
+}
