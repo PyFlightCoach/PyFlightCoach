@@ -6,12 +6,13 @@ import os
 from datetime import datetime
 from streamlit.uploaded_file_manager import UploadedFile
 from typing import Union, List
-
+import io
 
 class _Access:
     def __init__(self, engine, session):
         self.engine = engine
         self.session = session
+        self.current = None
 
     def _summary(self, query):
        return pd.read_sql(
@@ -51,6 +52,21 @@ class _Access:
     def latest_log(self):
         return self.session.query(Log).order_by(Log.id.desc()).first()
 
+    def current_log(self):
+        if self.current is None:
+            try:
+                with open(Log.rootfolder / "current_log.txt", "r") as f:
+                    current_log = int(f.read())
+                self.current = self.get_log(current_log)
+            except FileNotFoundError:
+                self.current = self.latest_log()
+        return self.current
+
+    def set_current(self, logid):
+        self.current = self.get_log(logid)
+        with io.open(Log.rootfolder / "current_log.txt", "w") as f:
+            f.write(str(logid))
+
     def _todays_logs(self):
         start_of_day = datetime.now().date()
         return self.session.query(Log).filter(Log.added>=start_of_day)
@@ -70,7 +86,13 @@ class _Access:
             log.sequence=seq
         self.session.commit()
 
-def new_session(folder:str="data/private_logs/"):
+    def set_direction(self, log: Union[Log, List[Log]], sequence: str):
+        raise NotImplementedError()
+        
+    def get_log(self, logid: int):
+        return self.session.query(Log).filter(Log.id == logid).first()
+
+def new_session(folder:str="data/private_logs/") -> _Access:
     try:
         os.mkdir(folder)
     except FileExistsError:

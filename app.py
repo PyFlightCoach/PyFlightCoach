@@ -6,13 +6,13 @@ import numpy as np
 import pandas as pd
 
 import plotly.graph_objects as go
-from flightanalysis import Section, State, FlightLine
+from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
 from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
 
 from flightplotting.model import OBJ
-from geometry import Point, Quaternion, Transformation
+from geometry import Point, Quaternion, Transformation, Coord
 import os
 import tkinter as tk
 from pyflightcoach.log_register.access import new_session
@@ -38,20 +38,39 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
 ))
 
 with st.sidebar.beta_expander("log selection"):
-    scan_folder = st.text_input("folder to scan", "/media/")
-    if st.button("scan folder"):
+    col1, col2 = st.beta_columns(2)
+    scan_folder = col1.text_input("folder to scan", "/media/")
+    if col2.button("scan"):
         register.register_folder(Path(scan_folder))
 
+    bdb = st.checkbox("select from db")
+
     fp = st.file_uploader("select bin file", "BIN")
-    if fp:
-        log = register.register_log(fp)
-    else:
-        log = register.latest_log()
+
+if bdb:
+    sumdf = register.summary().iloc[::-1]
+    st.dataframe(sumdf)
+    logid = st.number_input("enter log to view", 0, sumdf.id.max(), sumdf.iloc[0].id)
+    if st.button("confirm"):
+        register.set_current(logid)
+
+
+if fp:
+    log = register.register_log(fp)
+else:
+    log = register.current_log()
+
+
+
 
 loading = st.empty()
 loading.text("reading log .....")
 
-flight = log.flight()  
+@st.cache
+def read_log(csv):
+    return Flight.from_csv(csv)
+
+flight = read_log(log.csv_file)
 
 with st.sidebar.beta_expander("flightline setup"):
     fltype = st.radio("method", ["json", "covariance", "initial position"], 0)
@@ -69,21 +88,26 @@ with st.sidebar.beta_expander("flightline setup"):
 
 loading.text("moving to flightline .....")
 
+@st.cache(hash_funcs={Coord: str})
+def get_section(flight, flightline):
+    return Section.from_flight(flight, flightline)
 
-seq = Section.from_flight(flight, flightline)
+seq = get_section(flight, flightline)
 
 loading.empty()
 
-npoints = st.sidebar.number_input("Number of Models", 0, 100, value=40)
-scale = st.sidebar.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
-scaled_obj = obj.scale(scale)
-showmesh = st.sidebar.checkbox("Show Models", True)
+with st.sidebar.beta_expander("Plot Controls"):
 
-cg_trace = st.sidebar.checkbox("Show CG Trace", False)
-ttrace = st.sidebar.checkbox("Show Tip Trace", True)
-btrace = st.sidebar.checkbox("Show Box Trace", True)
+    npoints = st.number_input("Number of Models", 0, 100, value=40)
+    scale = st.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
+    scaled_obj = obj.scale(scale)
+    showmesh = st.checkbox("Show Models", True)
 
-perspective = st.sidebar.checkbox("perspective", True)
+    cg_trace = st.checkbox("Show CG Trace", False)
+    ttrace = st.checkbox("Show Tip Trace", True)
+    btrace = st.checkbox("Show Box Trace", True)
+
+    perspective = st.checkbox("perspective", True)
 
 
 
@@ -120,12 +144,23 @@ st.plotly_chart(
 )
 
 
-sequence = st.sidebar.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
-if st.sidebar.button("save sequence selection"):
-    register.set_sequence(log, sequence)
+with st.sidebar.beta_expander("Sequence Setup"):
+    col1, col2 = st.beta_columns(2)
+    sequence = col1.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
+    if col2.button("save sequence selection"):
+        register.set_sequence(log, sequence)
 
+    direction = col1.radio("entry direction", ["left", "right"], 0)
+    if col2.button("save entry direction"):
+        register.set_direction(log, direction)
 
-with st.beta_expander("Scores"):
-    seqdf = pd.read_csv("data/sequences/{}.csv".format(sequence))
-    st.dataframe(seqdf)
+    @st.cache
+    def read_schedule(name, dir):
+        return Section.from_schedule(Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
+
+    template = read_schedule(sequence, direction)
+
+    start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
+    
+    stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
     
