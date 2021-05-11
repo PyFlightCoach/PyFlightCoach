@@ -50,7 +50,7 @@ with st.sidebar.beta_expander("log selection"):
 if bdb:
     sumdf = register.summary().iloc[::-1]
     st.dataframe(sumdf)
-    logid = st.number_input("enter log id", 0, sumdf.id.max(), sumdf.iloc[0].id)
+    logid = st.number_input("enter log id", 0, sumdf.id.max(), register.current_log().id)
     if st.button("confirm"):
         register.set_current(logid)
 
@@ -108,6 +108,7 @@ with st.sidebar.beta_expander("Plot Controls"):
     perspective = st.checkbox("perspective", True)
 
 
+
 plot_range = st.slider(
     "plot range", 0.0, flight.duration, (0.0, flight.duration))
 
@@ -129,24 +130,31 @@ with st.sidebar.beta_expander("Sequence Setup"):
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
 
-    if st.checkbox("run_dtw"):
-        template = read_schedule(sequence, direction)
+    rundtw = st.checkbox("run_dtw")
 
-        @st.cache
-        def do_dtw(sec, temp):
-            return Section.align(sec.subset(start, stop), temp)
+if rundtw:
+    template = read_schedule(sequence, direction)
 
-        dist, aligned = do_dtw(seq, template)
+    @st.cache
+    def do_dtw(sec, temp):
+        return Section.align(sec.subset(start, stop), temp)
+
+    dist, aligned = do_dtw(seq, template)
+
+    with st.sidebar.beta_expander("manoeuvre selection"):
         manoeuvre = st.radio("select manoeuvre", aligned.manoeuvre.unique())
-        plotsec = Section(aligned.data.loc[aligned.manoeuvre==manoeuvre, :])
-    else:
-        plotsec = seq.subset(*plot_range)
+    plotsec = Section(aligned.data.loc[aligned.manoeuvre==manoeuvre, :])
+    perfect = Section(template.data.loc[template.manoeuvre==manoeuvre, :])
+    showtemplate = st.checkbox("show template")
+else:
+    plotsec = seq.subset(*plot_range)
+    showtemplate = False
 
 
-def make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace):
+def _make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace, color="grey"):
     traces = []
     if showmesh:
-        traces += [mesh for mesh in meshes(scaled_obj, npoints, sec, 'orange')]
+        traces += [mesh for mesh in meshes(scaled_obj, npoints, sec, color)]
     if cg_trace:
         traces += [cgtrace(sec)]
     if ttrace:
@@ -155,10 +163,15 @@ def make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace):
         traces += boxtrace()
     return traces
 
+def make_plot_data():
+    traces = _make_plot_data(plotsec, npoints, showmesh, cgtrace, ttrace, "grey") 
+    if showtemplate:
+        traces += _make_plot_data(perfect, npoints, showmesh, cgtrace, ttrace, "orange") 
+    return traces
 
 st.plotly_chart(
     go.Figure(
-        make_plot_data(plotsec, npoints, showmesh, cgtrace, ttrace),
+        make_plot_data(),
         layout=go.Layout(
             template="flight3d+judge_view",
             height=800,
