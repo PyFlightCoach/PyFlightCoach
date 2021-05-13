@@ -144,7 +144,10 @@ if rundtw:
     with st.sidebar.beta_expander("manoeuvre selection"):
         manoeuvre = st.radio("select manoeuvre", aligned.manoeuvre.unique())
     plotsec = Section(aligned.data.loc[aligned.manoeuvre==manoeuvre, :])
-    perfect = Section(template.data.loc[template.manoeuvre==manoeuvre, :])
+
+    # TODO regenerate scaled template here
+    
+    perfect = Section(template.data.loc[template.manoeuvre==manoeuvre, :])  
     showtemplate = st.checkbox("show template")
 else:
     plotsec = seq.subset(*plot_range)
