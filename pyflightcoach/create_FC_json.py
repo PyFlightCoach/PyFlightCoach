@@ -64,5 +64,7 @@ def create_json(sec: Section, file: str):
 
 
 if __name__ == "__main__":
-    p21 = Schedule.from_json("FlightAnalysis/schedules/P21.json")
-    sec = Section.from_schedule(p21, 170.0, "left")
+    from flightanalysis.schedule.p21 import *
+    from flightanalysis.schedule.p23 import *
+    create_json(Section.from_schedule(p23, 170.0, "left"), "P23_template.json")
+    create_json(Section.from_schedule(p21, 170.0, "left"), "P21_template.json")
