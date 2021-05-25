@@ -12,7 +12,7 @@ from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
 
 from flightplotting.model import OBJ
-from geometry import Point, Quaternion, Transformation, Coord
+from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
 import os
 import tkinter as tk
 from pyflightcoach.log_register.access import new_session
@@ -78,8 +78,8 @@ with st.sidebar.beta_expander("flightline setup"):
         if not fp2:
             box = Box.from_json('examples/notebooks/flightlines/gordano_box.json')
         else:
-            box = Box(**load(fp2))
-        flightline = FlightLine.from_box(box)
+            box = Box.from_json(fp2)
+        flightline = FlightLine.from_box(box,  GPSPosition(**flight.origin()))
     elif fltype=="covariance":
         flightline = FlightLine.from_covariance(flight)
     elif fltype=="initial position":
