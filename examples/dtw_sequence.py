@@ -9,7 +9,7 @@ from flightplotting.model import OBJ
 from geometry import Transformation, Quaternion, Point
 from io import open
 from json import load
-
+import flightanalysis.schedule.p21 as sched
 import numpy as np
 import pandas as pd
 
@@ -18,8 +18,7 @@ obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transform
 ))
 
 
-p21 = Schedule.from_json("FlightAnalysis/schedules/P21.json")
-template = Section.from_schedule(p21, 170.0, "left")
+template = Section.from_schedule(sched.p21, 170.0, "left")
 
 
 flight = Flight.from_csv("data/logs/flight_csvs/00000136.csv")

@@ -8,6 +8,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
+import flightanalysis.schedule.p21 as sched
 from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
 
@@ -125,7 +126,7 @@ with st.sidebar.beta_expander("Sequence Setup"):
 
     @st.cache
     def read_schedule(name, dir):
-        return Section.from_schedule(Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
+        return Section.from_schedule(sched.p21, 170.0, dir)#Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
 
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
