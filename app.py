@@ -10,8 +10,8 @@ from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
 import flightanalysis.schedule.p21 as sched
 from flightdata import Flight, Fields
-from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
-
+from flightplotting.traces import meshes, cgtrace, old_tiptrace, boxtrace, vec_ribbon
+import flightplotting.templates
 from flightplotting.model import OBJ
 from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
 import os
@@ -100,7 +100,7 @@ with st.sidebar.beta_expander("Plot Controls"):
     npoints = st.number_input("Number of Models", 0, 100, value=40)
     scale = st.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
     scaled_obj = obj.scale(scale)
-    showmesh = st.checkbox("Show Models", True)
+    showmesh = st.checkbox("Show Models", False)
 
     cg_trace = st.checkbox("Show CG Trace", False)
     ttrace = st.checkbox("Show Tip Trace", True)
@@ -163,9 +163,11 @@ def _make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace, color="grey"):
     if cg_trace:
         traces += [cgtrace(sec)]
     if ttrace:
-        traces += tiptrace(sec, scale * 1.85)
+        traces += old_tiptrace(sec, scale * 1.85)
     if btrace:
         traces += boxtrace()
+    if rtrace:
+        traces += vec_ribbon(sec, scale * 1.85)
     return traces
 
 def make_plot_data():
