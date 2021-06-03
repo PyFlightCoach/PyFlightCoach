@@ -8,11 +8,12 @@ import pandas as pd
 import plotly.graph_objects as go
 from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
+import flightanalysis.schedule.p21 as sched
 from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace
 
 from flightplotting.model import OBJ
-from geometry import Point, Quaternion, Transformation, Coord
+from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
 import os
 import tkinter as tk
 from pyflightcoach.log_register.access import new_session
@@ -78,8 +79,8 @@ with st.sidebar.beta_expander("flightline setup"):
         if not fp2:
             box = Box.from_json('examples/notebooks/flightlines/gordano_box.json')
         else:
-            box = Box(**load(fp2))
-        flightline = FlightLine.from_box(box)
+            box = Box.from_json(fp2)
+        flightline = FlightLine.from_box(box,  GPSPosition(**flight.origin()))
     elif fltype=="covariance":
         flightline = FlightLine.from_covariance(flight)
     elif fltype=="initial position":
@@ -125,7 +126,7 @@ with st.sidebar.beta_expander("Sequence Setup"):
 
     @st.cache
     def read_schedule(name, dir):
-        return Section.from_schedule(Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
+        return Section.from_schedule(sched.p21, 170.0, dir)#Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
 
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
