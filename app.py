@@ -105,6 +105,7 @@ with st.sidebar.beta_expander("Plot Controls"):
     cg_trace = st.checkbox("Show CG Trace", False)
     ttrace = st.checkbox("Show Tip Trace", True)
     btrace = st.checkbox("Show Box Trace", True)
+    rtrace = st.checkbox("Show Ribbon Trace", True)
 
     perspective = st.checkbox("perspective", True)
 
