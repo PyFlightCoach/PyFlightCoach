@@ -164,8 +164,6 @@ def _make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace, color="grey"):
         traces += [cgtrace(sec)]
     if ttrace:
         traces += old_tiptrace(sec, scale * 1.85)
-    if btrace:
-        traces += boxtrace()
     if rtrace:
         traces += vec_ribbon(sec, scale * 1.85)
     return traces
@@ -174,6 +172,8 @@ def make_plot_data():
     traces = _make_plot_data(plotsec, npoints, showmesh, cgtrace, ttrace, "grey") 
     if showtemplate:
         traces += _make_plot_data(perfect, npoints, showmesh, cgtrace, ttrace, "orange") 
+    if btrace:
+        traces += boxtrace()
     return traces
 
 st.plotly_chart(
