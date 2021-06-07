@@ -10,7 +10,7 @@ from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
 import flightanalysis.schedule.p21 as sched
 from flightdata import Flight, Fields
-from flightplotting.traces import meshes, cgtrace, old_tiptrace, boxtrace, vec_ribbon
+from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace, ribbon
 import flightplotting.templates
 from flightplotting.model import OBJ
 from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
@@ -156,22 +156,22 @@ else:
     showtemplate = False
 
 
-def _make_plot_data(sec,  npoints, showmesh, cgtrace, ttrace, color="grey"):
+def _make_plot_data(sec,  npoints, showmesh, cg_trace, ttrace, color="grey"):
     traces = []
     if showmesh:
         traces += [mesh for mesh in meshes(scaled_obj, npoints, sec, color)]
     if cg_trace:
         traces += [cgtrace(sec)]
     if ttrace:
-        traces += old_tiptrace(sec, scale * 1.85)
+        traces += tiptrace(sec, scale * 1.85)
     if rtrace:
-        traces += vec_ribbon(sec, scale * 1.85)
+        traces += ribbon(sec, scale * 1.85)
     return traces
 
 def make_plot_data():
-    traces = _make_plot_data(plotsec, npoints, showmesh, cgtrace, ttrace, "grey") 
+    traces = _make_plot_data(plotsec, npoints, showmesh, cg_trace, ttrace, "grey") 
     if showtemplate:
-        traces += _make_plot_data(perfect, npoints, showmesh, cgtrace, ttrace, "orange") 
+        traces += _make_plot_data(perfect, npoints, showmesh, cg_trace, ttrace, "orange") 
     if btrace:
         traces += boxtrace()
     return traces
