@@ -66,7 +66,7 @@ def create_json(sec: Section, file: str, header: str):
         fcman["start"] = int(temp.loc[temp.manoeuvre == tman].index[0])
         fcman["wd"]=100*sec.get_manoeuvre(tman).duration / sec.duration
 
-    data["mans"][0]["wd"] = data["mans"][0]["wd"] + 0.2
+    data["mans"][0]["wd"] = data["mans"][0]["wd"] + 0.3
 
     print("saving file")
     with open(file, "w") as f:
