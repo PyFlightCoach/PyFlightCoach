@@ -8,7 +8,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from flightanalysis import Section, FlightLine, Schedule
 from flightanalysis.flightline import Box
-import flightanalysis.schedule.p21 as sched
+from flightanalysis.schedule import p21, f21
+
 from flightdata import Flight, Fields
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace, ribbon
 import flightplotting.templates
@@ -118,6 +119,7 @@ plot_range = st.slider(
 with st.sidebar.beta_expander("Sequence Setup"):
     col1, col2 = st.beta_columns(2)
     sequence = col1.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
+
     if col2.button("save sequence selection"):
         register.set_sequence(log, sequence)
 
@@ -125,9 +127,7 @@ with st.sidebar.beta_expander("Sequence Setup"):
     if col2.button("save entry direction"):
         register.set_direction(log, direction)
 
-    @st.cache
-    def read_schedule(name, dir):
-        return Section.from_schedule(sched.p21, 170.0, dir)#Schedule.from_json("FlightAnalysis/schedules/{}.json".format(name)), 170.0, dir)
+
 
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
@@ -135,7 +135,16 @@ with st.sidebar.beta_expander("Sequence Setup"):
     rundtw = st.checkbox("run_dtw")
 
 if rundtw:
-    template = read_schedule(sequence, direction)
+    if sequence == "P21":
+        sched = p21
+    elif sequence == "F21":
+        sched = f21
+    
+    @st.cache
+    def read_schedule(sched, dir):
+        return sched.create_template(dir, 170.0)
+
+    template = read_schedule(sched, direction)
 
     @st.cache
     def do_dtw(sec, temp):
@@ -143,13 +152,14 @@ if rundtw:
 
     dist, aligned = do_dtw(seq, template)
 
-    with st.sidebar.beta_expander("manoeuvre selection"):
-        manoeuvre = st.radio("select manoeuvre", aligned.manoeuvre.unique())
-    plotsec = Section(aligned.data.loc[aligned.manoeuvre==manoeuvre, :])
-
     # TODO regenerate scaled template here
-    
-    perfect = Section(template.data.loc[template.manoeuvre==manoeuvre, :])  
+
+    with st.sidebar.beta_expander("manoeuvre selection"):
+        man = st.radio("select manoeuvre", [man.name for man in sched.manoeuvres])
+        manoeuvre = sched.manoeuvre(man)
+        
+    plotsec = manoeuvre.get_data(aligned)
+    perfect = manoeuvre.get_data(template)
     showtemplate = st.checkbox("show template")
 else:
     plotsec = seq.subset(*plot_range)
