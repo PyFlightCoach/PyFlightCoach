@@ -8,3 +8,4 @@ plotly
 streamlit 
 pymavlink
 sqlalchemy
+alembic
