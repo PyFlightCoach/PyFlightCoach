@@ -1,27 +1,20 @@
 from logging import log
-from flightdata.fields import Field
 import streamlit as st
 
-import numpy as np
-import pandas as pd
-
 import plotly.graph_objects as go
-from flightanalysis import Section, FlightLine, Schedule
+from flightanalysis import Section, FlightLine
 from flightanalysis.flightline import Box
-from flightanalysis.schedule import p21, f21
+from flightanalysis.schedule import p21#, f21
 
-from flightdata import Flight, Fields
+from flightdata import Flight
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace, ribbon
 import flightplotting.templates
-from flightplotting.model import OBJ
-from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
+from geometry import Coord, GPSPosition
 import os
-import tkinter as tk
 from pyflightcoach.log_register.access import new_session
-from pyflightcoach.log_register.tables import Log
 from pathlib import Path
 from json import load
-
+from pyflightcoach.model import obj
 register = new_session()
 
 st.markdown(
@@ -35,9 +28,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transformation(
-    Point(0.75, 0, 0), Quaternion.from_euler(Point(np.pi, 0, -np.pi/2))
-))
 
 with st.sidebar.beta_expander("log selection"):
     col1, col2 = st.beta_columns(2)
@@ -135,10 +125,10 @@ with st.sidebar.beta_expander("Sequence Setup"):
     rundtw = st.checkbox("run_dtw")
 
 if rundtw:
-    if sequence == "P21":
-        sched = p21
-    elif sequence == "F21":
-        sched = f21
+    #if sequence == "P21":
+    sched = p21
+    #elif sequence == "F21":
+    #    sched = f21
     
     @st.cache
     def read_schedule(sched, dir):
