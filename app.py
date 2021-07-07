@@ -68,7 +68,7 @@ with st.sidebar.beta_expander("flightline setup"):
     if fltype == "json":
         fp2 = st.file_uploader("select flightline json", "json")
         if not fp2:
-            box = Box.from_json('examples/notebooks/flightlines/gordano_box.json')
+            box = Box.from_json('data/flightlines/gordano_box.json')
         else:
             box = Box.from_json(fp2)
         flightline = FlightLine.from_box(box,  GPSPosition(**flight.origin()))

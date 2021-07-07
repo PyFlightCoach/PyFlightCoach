@@ -1,5 +1,5 @@
 from flightplotting.model import OBJ
-
+import numpy as np
 from geometry import Point, Quaternion, Transformation, Coord, GPSPosition
 
 obj = OBJ.from_obj_file('data/models/ColdDraftF3APlane.obj').transform(Transformation(

@@ -1,1 +1,10 @@
-{"name": "2point", "pilot_position": {"latitude": 51.45945044, "longitude": -2.791254067407407}, "heading": 2.6008807529949265}
+{
+    "name": "runway_perpendicular_1",
+    "club": "AMARC 2002",
+    "country": "UK",
+    "pilot_position": {
+        "latitude": 51.45945044,
+        "longitude": -2.791254067407407
+    },
+    "heading": 2.6008807529949265
+}

@@ -1,4 +1,4 @@
-from pyflightcoach.log_register.tables import create_db, Log, Sequence
+from pyflightcoach.log_register.tables import create_db, Log, Sequence, BoxReg
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -7,7 +7,8 @@ from datetime import datetime
 from streamlit.uploaded_file_manager import UploadedFile
 from typing import Union, List
 import io
-
+from geometry import GPSPosition
+from flightanalysis.flightline import Box
 class _Access:
     def __init__(self, engine, session):
         self.engine = engine
@@ -22,13 +23,23 @@ class _Access:
             Log.csv_file, 
             Log.stick_name, 
             Log.added,
-            Sequence.name).statement,
+            Sequence.name,
+            BoxReg.name).statement,
             con=self.session.bind
         )
 
 
     def summary(self):
-        return self._summary(self.session.query(Log).join(Sequence, isouter=True))
+        return self._summary(self.session.query(Log).join(Sequence, isouter=True).join(BoxReg, isouter=True))
+
+    def _box_summary(self, query):
+        return pd.read_sql(
+            query.with_entities(Box.id, Box.name, Box.club, Box.country).statement,
+            con=self.session.bind
+        )
+
+    def box_summary(self):
+        return self._box_summary(self.session.query(Box))
 
     def register_log(self, bin_file: Union[str, Path, UploadedFile]):
         if isinstance(bin_file, str):
@@ -91,6 +102,26 @@ class _Access:
         
     def get_log(self, logid: int):
         return self.session.query(Log).filter(Log.id == logid).first()
+
+    def get_boxes(self, club:str=None, country:str=None):
+        flightlines = self.session.query(BoxReg)
+        if not club == None:
+            flightlines = flightlines.filter(BoxReg.club==club)
+        if not country == None:
+            flightlines = flightlines.filter(BoxReg.country==country)
+        return flightlines.all()
+
+    def set_box(self, log: Union[Log, List[Log]], box: Box):
+        flightline = BoxReg.new_flightline(
+            box
+        )
+        if isinstance(log, list):
+            for lg in log:
+                lg.flightline=flightline
+        else:
+            log.flightline=flightline
+        self.session.commit()
+
 
 def new_session(folder:str="data/private_logs/") -> _Access:
     try:
