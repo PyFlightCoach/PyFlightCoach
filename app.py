@@ -15,6 +15,9 @@ from pyflightcoach.log_register.access import new_session
 from pathlib import Path
 from json import load
 from pyflightcoach.model import obj
+
+# TODO new versions of streamlit give session state and callbacks which should simplify things
+
 register = new_session()
 
 st.markdown(
@@ -27,7 +30,9 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
+################################################################
+### LOG SELECTION #################################
+################################################################
 
 with st.sidebar.beta_expander("log selection"):
     col1, col2 = st.beta_columns(2)
@@ -64,6 +69,10 @@ else:
     flight = read_log(log.csv_file)
 
 
+################################################################
+### FLIGHTLINE SELECTION #################################
+################################################################
+
 if log.boxreg:
     box = log.boxreg.box
 else:
@@ -99,6 +108,12 @@ seq = get_section(flight, flightline)
 
 loading.empty()
 
+
+################################################################
+### PLOT CONTROLS #################################
+################################################################
+
+
 with st.sidebar.beta_expander("Plot Controls"):
     npoints = st.number_input("Number of Models", 0, 100, value=40)
     scale = st.number_input("Model Scale Factor", 1.0, 50.0, value=5.0)
@@ -118,6 +133,10 @@ plot_range = st.slider(
     "plot range", 0.0, flight.duration, (0.0, flight.duration))
 
 
+################################################################
+### SEQUENCE SELECTION #################################
+################################################################
+
 with st.sidebar.beta_expander("Sequence Setup"):
     col1, col2 = st.beta_columns(2)
     sequence = col1.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
@@ -129,12 +148,16 @@ with st.sidebar.beta_expander("Sequence Setup"):
     if col2.button("save entry direction"):
         register.set_direction(log, direction)
 
-
-
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
 
     rundtw = st.checkbox("run_dtw")
+
+
+################################################################
+### SEQUENCE ALIGNMENT #################################
+################################################################
+
 
 if rundtw:
     #if sequence == "P21":
@@ -166,6 +189,11 @@ if rundtw:
 else:
     plotsec = seq.subset(*plot_range)
     showtemplate = False
+
+
+################################################################
+### PLOT #################################
+################################################################
 
 
 def _make_plot_data(sec,  npoints, showmesh, cg_trace, ttrace, color="grey"):
