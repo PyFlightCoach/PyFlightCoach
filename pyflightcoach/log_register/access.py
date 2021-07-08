@@ -24,7 +24,8 @@ class _Access:
             Log.stick_name, 
             Log.added,
             Sequence.name,
-            BoxReg.name).statement,
+            BoxReg.name,
+            BoxReg.club).statement,
             con=self.session.bind
         )
 
@@ -34,12 +35,12 @@ class _Access:
 
     def _box_summary(self, query):
         return pd.read_sql(
-            query.with_entities(Box.id, Box.name, Box.club, Box.country).statement,
+            query.with_entities(BoxReg.id, BoxReg.name, BoxReg.club, BoxReg.country).statement,
             con=self.session.bind
         )
 
     def box_summary(self):
-        return self._box_summary(self.session.query(Box))
+        return self._box_summary(self.session.query(BoxReg))
 
     def register_log(self, bin_file: Union[str, Path, UploadedFile]):
         if isinstance(bin_file, str):
@@ -103,6 +104,9 @@ class _Access:
     def get_log(self, logid: int):
         return self.session.query(Log).filter(Log.id == logid).first()
 
+    def get_box(self,boxid):
+        return self.session.query(BoxReg).filter(BoxReg.id == boxid).first()
+
     def get_boxes(self, club:str=None, country:str=None):
         flightlines = self.session.query(BoxReg)
         if not club == None:
@@ -111,15 +115,16 @@ class _Access:
             flightlines = flightlines.filter(BoxReg.country==country)
         return flightlines.all()
 
-    def set_box(self, log: Union[Log, List[Log]], box: Box):
-        flightline = BoxReg.new_flightline(
-            box
-        )
-        if isinstance(log, list):
-            for lg in log:
-                lg.flightline=flightline
+    def set_box(self, log: Union[Log, List[Log]], box: Union[Box, BoxReg, int]):
+        if isinstance(box, Box):
+            _box = BoxReg.from_box(self.session, box)
+        elif isinstance(box, BoxReg):
+            _box = BoxReg
+        elif isinstance(box, int): 
+            _box = self.get_box(box)
         else:
-            log.flightline=flightline
+            raise TypeError("expected BoxReg or Box")
+        log.boxreg = _box
         self.session.commit()
 
 

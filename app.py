@@ -63,19 +63,31 @@ if not os.path.exists(log.csv_file):
 else:
     flight = read_log(log.csv_file)
 
+
+if log.boxreg:
+    box = log.boxreg.box
+else:
+    box = Box.from_initial(flight)  # TODO replace with select closest box from DB or last used or something
+
+
 with st.sidebar.beta_expander("flightline setup"):
-    fltype = st.radio("method", ["json", "covariance", "initial position"], 0)
-    if fltype == "json":
-        fp2 = st.file_uploader("select flightline json", "json")
-        if not fp2:
-            box = Box.from_json('data/flightlines/gordano_box.json')
-        else:
-            box = Box.from_json(fp2)
-        flightline = FlightLine.from_box(box,  GPSPosition(**flight.origin()))
-    elif fltype=="covariance":
-        flightline = FlightLine.from_covariance(flight)
-    elif fltype=="initial position":
-        flightline = FlightLine.from_initial_position(flight)
+    bdb_box = st.checkbox("Select from DB", False)
+
+    fp2 = st.file_uploader("select flightline json", "json")
+    if fp2:
+        box = Box.from_json(fp2)
+        if st.button("save box for flight"):
+            register.set_box(log, box)
+
+if bdb_box:
+    sumdf_box = register.box_summary().iloc[::-1]
+    st.dataframe(sumdf_box)
+    boxid = st.number_input("enter box id", 0, sumdf_box.id.max(), sumdf_box.id.max())
+    if st.button("confirm box"):
+        register.set_box(log, boxid)
+
+
+flightline = FlightLine.from_box(box,  GPSPosition(**flight.origin()))
 
 loading.text("moving to flightline .....")
 
