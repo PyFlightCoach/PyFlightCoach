@@ -195,7 +195,6 @@ else:
 ### PLOT #################################
 ################################################################
 
-
 def _make_plot_data(sec,  npoints, showmesh, cg_trace, ttrace, color="grey"):
     traces = []
     if showmesh:

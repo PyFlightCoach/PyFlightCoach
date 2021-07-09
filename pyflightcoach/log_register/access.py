@@ -127,6 +127,8 @@ class _Access:
         log.boxreg = _box
         self.session.commit()
 
+    def set_start_end(self, log: Log, start_time, end_time):
+        pass
 
 def new_session(folder:str="data/private_logs/") -> _Access:
     try:

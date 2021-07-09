@@ -17,7 +17,6 @@ from flightanalysis.flightline import Box
 
 Base = declarative_base()
 
-
 class Log(Base):
     __tablename__ = "log"
     rootfolder = Path("data/private_logs")
@@ -31,6 +30,8 @@ class Log(Base):
     sequence = relationship("Sequence")
     boxreg_id = Column(Integer, ForeignKey('boxreg.id'))
     boxreg = relationship("BoxReg")
+    start_index = Column(Integer)
+    end_index = Column(Integer)
 
     @staticmethod
     def register_bin(bin_file: Union[str, Path, UploadedFile]):
@@ -75,11 +76,20 @@ class Log(Base):
             return flight
 
 
+class Manoeuvre(Base):
+    __tablename__ = "manoeuvre"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    k_factor = Column(Integer)
+    sequence_id = Column(Integer, ForeignKey('sequence.id'))
+    sequence = relationship("Sequence")
+
 class Sequence(Base):
     __tablename__ = "sequence"
     id = Column(Integer, primary_key=True)
     name = Column(String)
     logs = relationship("Log", back_populates="sequence")
+    manoeuvres = relationship("Manoeuvre", back_populates="sequence")
 
     @staticmethod
     def get_or_create(sess, name: str):
@@ -113,7 +123,6 @@ class BoxReg(Base):
                 BoxReg.pilot_heading == box.heading
             ).first()
         
-
         if fl is None:
             try:
                 fl = BoxReg(
