@@ -58,7 +58,7 @@ class TestAccess(unittest.TestCase):
 
     def test_register_folder(self):
         logs = self.access.register_folder(Path('data/logs/'))
-        self.assertEqual(len(logs), 3)
+        self.assertEqual(len(logs), 5)
 
     def test_set_sequence(self):
         self.access.register_folder(Path('data/logs/'))

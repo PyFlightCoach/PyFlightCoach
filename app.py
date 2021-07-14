@@ -102,6 +102,8 @@ loading.text("moving to flightline .....")
 
 @st.cache(hash_funcs={Coord: str})
 def get_section(flight, flightline):
+    del st.session_state['seq_begin']
+    del st.session_state['seq_end']
     return Section.from_flight(flight, flightline)
 
 seq = get_section(flight, flightline)
@@ -128,10 +130,21 @@ with st.sidebar.beta_expander("Plot Controls"):
     perspective = st.checkbox("perspective", True)
 
 
+if 'seq_begin' not in st.session_state:
+    if log.start_index:
+        st.session_state['seq_begin'] = float(seq.data.index[log.start_index])
+    else:
+        st.session_state['seq_begin'] = 100.0 if float(seq.data.index[-1]) > 100 else 0.0
+
+if 'seq_end' not in st.session_state:
+    if log.end_index:
+        st.session_state['seq_end'] = float(seq.data.index[log.end_index])
+    else:
+        st.session_state['seq_end'] = 500.0 if float(seq.data.index[-1]) > 500 else 0.0
+
 
 plot_range = st.slider(
-    "plot range", 0.0, flight.duration, (0.0, flight.duration))
-
+    "plot range", 0.0, flight.duration, (st.session_state['seq_begin'], st.session_state['seq_end']))
 
 ################################################################
 ### SEQUENCE SELECTION #################################
@@ -139,6 +152,7 @@ plot_range = st.slider(
 
 with st.sidebar.beta_expander("Sequence Setup"):
     col1, col2 = st.beta_columns(2)
+
     sequence = col1.text_input("Enter Sequence Name", log.sequence.name if log.sequence else "Unknown")
 
     if col2.button("save sequence selection"):
@@ -147,9 +161,20 @@ with st.sidebar.beta_expander("Sequence Setup"):
     direction = col1.radio("entry direction", ["left", "right"], 0)
     if col2.button("save entry direction"):
         register.set_direction(log, direction)
+    
 
-    start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
-    stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
+    if st.button("copy slider start value"):
+        st.session_state['seq_begin'] = plot_range[0]
+    
+    st.session_state['seq_begin'] = st.number_input("start", 0.0, seq.data.index[-1], st.session_state['seq_begin'])
+
+    if st.button("copy slider end value"):
+        st.session_state['seq_end'] = plot_range[1]
+        
+    st.session_state['seq_end'] = st.number_input("end", 0.0, seq.data.index[-1], st.session_state['seq_end'])
+
+    if st.button("save sequence start & end"):
+        register.set_start_end(log, seq.data.index.get_loc(st.session_state['seq_begin'], method="nearest"), seq.data.index.get_loc(st.session_state['seq_end'], method="nearest"))
 
     rundtw = st.checkbox("run_dtw")
 
@@ -173,7 +198,7 @@ if rundtw:
 
     @st.cache
     def do_dtw(sec, temp):
-        return Section.align(sec.subset(start, stop), temp)
+        return Section.align(sec.subset(st.session_state['seq_begin'], st.session_state['seq_end']), temp)
 
     dist, aligned = do_dtw(seq, template)
 
