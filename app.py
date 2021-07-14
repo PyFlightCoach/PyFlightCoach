@@ -128,10 +128,11 @@ with st.sidebar.beta_expander("Plot Controls"):
     perspective = st.checkbox("perspective", True)
 
 
+seq_begin = 0.0 if log.start_index is None else seq.data.index[log.start_index]
+seq_end = flight.duration if log.end_index is None else seq.data.index[log.end_index]
 
 plot_range = st.slider(
-    "plot range", 0.0, flight.duration, (0.0, flight.duration))
-
+    "plot range", 0.0, flight.duration, (seq_begin, seq_end))
 
 ################################################################
 ### SEQUENCE SELECTION #################################
@@ -147,7 +148,13 @@ with st.sidebar.beta_expander("Sequence Setup"):
     direction = col1.radio("entry direction", ["left", "right"], 0)
     if col2.button("save entry direction"):
         register.set_direction(log, direction)
-
+    
+    if col1.button("copy slider start value"):
+        seq_begin = plot_range[0]
+    
+    if col2.button("copy slider end value"):
+            seq_end = plot_range[1]
+        
     start = st.number_input("start", 0.0, seq.data.index[-1], plot_range[0])
     stop = st.number_input("end", 0.0, seq.data.index[-1], plot_range[1])
 
