@@ -192,7 +192,7 @@ if rundtw:
     
     @st.cache
     def read_schedule(sched, dir):
-        return sched.create_template(dir, 170.0)
+        return sched.create_template(dir, 50.0, 170.0)
 
     template = read_schedule(sched, direction)
 
