@@ -4,7 +4,7 @@ import streamlit as st
 import plotly.graph_objects as go
 from flightanalysis import Section, FlightLine
 from flightanalysis.flightline import Box
-from flightanalysis.schedule import p21#, f21
+from flightanalysis.schedule import p21, f21
 
 from flightdata import Flight
 from flightplotting.traces import meshes, cgtrace, tiptrace, boxtrace, ribbon
@@ -102,8 +102,10 @@ loading.text("moving to flightline .....")
 
 @st.cache(hash_funcs={Coord: str})
 def get_section(flight, flightline):
-    del st.session_state['seq_begin']
-    del st.session_state['seq_end']
+    if "seq_begin" in st.session_state:
+        del st.session_state['seq_begin']
+    if 'seq_end' in st.session_state:
+        del st.session_state['seq_end']
     return Section.from_flight(flight, flightline)
 
 seq = get_section(flight, flightline)
@@ -185,14 +187,14 @@ with st.sidebar.beta_expander("Sequence Setup"):
 
 
 if rundtw:
-    #if sequence == "P21":
-    sched = p21
-    #elif sequence == "F21":
-    #    sched = f21
+    if sequence == "P21":
+        sched = p21
+    elif sequence == "F21":
+        sched = f21
     
     @st.cache
     def read_schedule(sched, dir):
-        return sched.create_template(dir, 50.0, 170.0)
+        return sched.scale_distance(170).create_raw_template(dir, 40.0, 170.0)
 
     template = read_schedule(sched, direction)
 
@@ -202,14 +204,20 @@ if rundtw:
 
     dist, aligned = do_dtw(seq, template)
 
-    # TODO regenerate scaled template here
+    @st.cache
+    def create_new_template(sec, sced):
+        return sced.match_intention(sec).correct_intention().create_matched_template(sec)
+
+    correct = create_new_template(aligned, sched)
 
     with st.sidebar.beta_expander("manoeuvre selection"):
         man = st.radio("select manoeuvre", [man.name for man in sched.manoeuvres])
         manoeuvre = sched.manoeuvre(man)
-        
+
+    
+
     plotsec = manoeuvre.get_data(aligned)
-    perfect = manoeuvre.get_data(template)
+    perfect = manoeuvre.get_data(correct)
     showtemplate = st.checkbox("show template")
 else:
     plotsec = seq.subset(*plot_range)

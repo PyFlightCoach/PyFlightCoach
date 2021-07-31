@@ -3,10 +3,10 @@ from geometry import GPSPosition
 from flightanalysis.flightline import Box
 
 #pilot = Flight.from_log("data/logs/flightlines/pilot_pos.BIN")
-pilot = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000120.BIN")
+pilot = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000129.BIN")
 
 #centre = Flight.from_log("data/logs/flightlines/centre_point.BIN")
-centre = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000121.BIN")
+centre = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000130.BIN")
 
 _p = pilot.read_fields(Fields.GLOBALPOSITION).iloc[-1]
 p = GPSPosition(_p.global_position_latitude, _p.global_position_longitude)
@@ -27,4 +27,4 @@ print(c)
 
 
 print(box)
-box.to_json("data/flightlines/duckhole_evening_2.json")
+box.to_json("data/flightlines/gordano_3107.json")
