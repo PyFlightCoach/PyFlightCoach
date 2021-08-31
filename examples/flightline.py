@@ -2,11 +2,11 @@ from flightdata import Flight, Fields
 from geometry import GPSPosition
 from flightanalysis.flightline import Box
 
-#pilot = Flight.from_log("data/logs/flightlines/pilot_pos.BIN")
-pilot = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000242.BIN")
+pilot = Flight.from_log("data/logs/flightlines/pilot_pos.BIN")
+#pilot = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000242.BIN")
 
-#centre = Flight.from_log("data/logs/flightlines/centre_point.BIN")
-centre = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000243.BIN")
+centre = Flight.from_log("data/logs/flightlines/centre_point.BIN")
+#centre = Flight.from_log("/media/tom/LOGS/APM/LOGS/00000243.BIN")
 
 _p = pilot.read_fields(Fields.GLOBALPOSITION).iloc[-1]
 p = GPSPosition(_p.global_position_latitude, _p.global_position_longitude)
@@ -15,8 +15,7 @@ _c = centre.read_fields(Fields.GLOBALPOSITION).iloc[-1]
 c = GPSPosition(_c.global_position_latitude, _c.global_position_longitude)
 
 
-
-box = Box.from_points("morning_left_1", p,c)
+box = Box.from_points("example_box", p,c)
 
 
 print(p)
@@ -27,4 +26,3 @@ from io import open
 with open("temp.json", "w") as f:
     dump({"pilot": p.to_dict(), "center": c.to_dict()}, f)
 
-###box.to_json("data/flightlines/duckhole_180821.json")
