@@ -5,7 +5,5 @@ fire
 loguru
 scipy
 plotly
-streamlit 
 pymavlink
-sqlalchemy
-alembic
+dastdtw
