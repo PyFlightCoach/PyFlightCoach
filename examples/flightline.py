@@ -5,10 +5,10 @@ from flightanalysis.flightline import Box
 #pilot = Flight.from_log("data/logs/flightlines/pilot_pos.BIN")
 #"/mnt/D/APM/LOGS/00000100.BIN"
 #"/mnt/c/projects/flight_analysis/logs/"
-pilot = Flight.from_log("/mnt/c/projects/flight_analysis/logs/00000106.BIN")
+pilot = Flight.from_log("/mnt/c/projects/flight_analysis/logs/00000111.BIN")
 
 #centre = Flight.from_log("data/logs/flightlines/centre_point.BIN")
-centre = Flight.from_log("/mnt/c/projects/flight_analysis/logs/00000107.BIN")
+centre = Flight.from_log("/mnt/c/projects/flight_analysis/logs/00000112.BIN")
 
 
 p = GPSPosition(*pilot.read_fields(Fields.GLOBALPOSITION).iloc[-1])
