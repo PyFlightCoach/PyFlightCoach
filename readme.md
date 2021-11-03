@@ -1,8 +1,10 @@
 ## Precision Aerobatic Flight Post Processing Tools
 
-This project contains a collection of packages for playing with flight data, principally aimed at plotting and analysing precision aerobatics. 
+This project contains a collection of packages for working with flight data, principally aimed at plotting and analysing precision aerobatics. 
 
-The idea is to compare recorded flight data to equivalent, perfect, generated flight data. The sequence definition is parsed and the sections of recorded data corresponding to the manoeuvres and elements in the definition are identified. So far using dynamic time warping based on axis rates seems to be a promising solution to this problem.
+The idea is to compare recorded flight data to equivalent, perfect, generated flight data. The sequence definition is parsed and the sections of recorded data corresponding to the manoeuvres and elements in the definition are identified. New scaled templates are then created to match the flown data but corrected to reflect the judging criteria.
+
+Static examples can be seen [here](https://pyflightcoach.github.io/PyFlightCoach/)
 
 The work here was the inspiration for flight coach, which is a web app that brings aerobatic flight plotting functionality to a wider audience: https://www.flightcoach.org/.
 
