@@ -6,5 +6,5 @@ authors:
     orcid: orcid.org/0000-0001-5773-6818	
 title: "PyFlightCoach"
 version: 0.1.0
-doi: 10.5281/zenodo.1234
+howpublished: https://github.com/PyFlightCoach/PyFlightCoach
 date-released: 2021-11-18
