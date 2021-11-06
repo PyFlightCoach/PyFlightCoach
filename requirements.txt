@@ -3,8 +3,7 @@ pandas
 pint
 fire
 loguru
-scipy
+scipy>=1.7.1
 plotly
-streamlit 
 pymavlink
-sqlalchemy
+dastdtw
