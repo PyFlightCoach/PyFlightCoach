@@ -25,6 +25,7 @@ if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
     p = GPSPosition(*res[0])
     c = GPSPosition(*res[1])
 
+
 else:
     pilot = Flight.from_log(path_or_browse("Pilot Position Bin path or empty for browse\n"))
     centre = Flight.from_log(path_or_browse("Centre Position Bin path or empty for browse\n"))
