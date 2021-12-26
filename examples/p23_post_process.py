@@ -1,7 +1,7 @@
 from flightanalysis import Section, get_schedule                
 from flightplotting.plots import plotsec, plotdtw
 import plotly
-from ipywidgets import interact, interactive, fixed, interact_manual
+
 from geometry import Point
 
 flown = Section.from_csv("examples/P23.csv").subset(102, 475)
