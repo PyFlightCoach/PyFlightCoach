@@ -1,20 +1,31 @@
+from tkinter.constants import N
 from flightdata import Flight, Fields
 from geometry import GPSPosition
 from flightanalysis import Box, Section
-import easygui
+from tkinter import filedialog
 import sys
 from pathlib import Path
 from scipy.cluster.vq import kmeans
+import pyperclip
+import os
 
-
-def path_or_browse(instruction, meth = easygui.fileopenbox, default="/media/tom/LOGS/APM/LOGS"):
+def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path("/mnt/c/projects/flight_analysis/logs/2021_12_27/")):
     pilot_pos = input(instruction)
-    if not pilot_pos:
-        pilot_pos = meth(msg=instruction, default=default)
-    else:
-        pilot_pos = str(list(Path(default).glob("*000{}.BIN".format(pilot_pos)))[0])
-    return pilot_pos
+                
+    while True:
+        try:
+            if pilot_pos is None:
+                pilot_pos = meth(msg=instruction, default=default)
+            
+            if not Path(pilot_pos).is_file():
+                pilot_pos = str(list(default.glob("*00{}.BIN".format(pilot_pos)))[0])
+            
+            return pilot_pos
 
+        except:
+            if not input("not found, try again?") in ['yes', 'y', "Y"]:
+                exit()
+    
 flight = None
 if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
     flight = Flight.from_log(path_or_browse("Pilot Position Bin path or empty for browse\n"))#path_or_browse("Flight Log Bin path or empty for browse\n"))
@@ -39,6 +50,9 @@ print(p)
 print(c)
 print(box.to_dict())
 
+if input("f3a zone to clipboard?") in ["y", "Y", "yes"]:
+    pyperclip.copy(box.to_f3a_zone())  
+
 if input("create section csv?\n") in ["y", "Y", "yes"]:
     
     if not flight is None:
@@ -55,7 +69,7 @@ if input("create section csv?\n") in ["y", "Y", "yes"]:
 
     sec = Section.from_flight(flight, box).append_columns(tx)
 
-    sec.to_csv(path_or_browse("Save section csv location\n", easygui.filesavebox))
+    sec.to_csv(path_or_browse("Save section csv location\n", filedialog.asksaveasfilename))
 #
 #
 #
