@@ -9,7 +9,8 @@ from scipy.cluster.vq import kmeans
 import pyperclip
 import os
 
-def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path("/mnt/c/projects/flight_analysis/logs/2021_12_27/")):
+
+def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path("/media/tom/storage/shared/flight_logs/2022_01_26")):
     pilot_pos = input(instruction)
                 
     while True:
