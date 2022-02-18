@@ -6,3 +6,4 @@ The following pages contain html exports from jupyter notebooks that use the PyF
 3. [Compare a flown snap roll to the template](https://pyflightcoach.github.io/PyFlightCoach/snap_rolls.html)
 4. [Compare a flown spin to the template](https://pyflightcoach.github.io/PyFlightCoach/spins.html)
 5. [A detailed look at loop geometry in the wind](https://pyflightcoach.github.io/PyFlightCoach/loops.html)
+7. [Estimating wind speeds from flight data](https://pyflightcoach.github.io/PyFlightCoach/wind.html)
