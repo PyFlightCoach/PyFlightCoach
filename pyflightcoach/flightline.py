@@ -8,7 +8,7 @@ from pathlib import Path
 from scipy.cluster.vq import kmeans
 import pyperclip
 import os
-basepath="/mnt/c/projects/flight_analysis/logs/2021_10_17/"
+basepath="/mnt/c/projects/flight_analysis/logs/2022_03_04/"
 
 def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path(basepath)):
     pilot_pos = input(instruction)
