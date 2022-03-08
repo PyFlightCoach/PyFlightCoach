@@ -8,7 +8,13 @@ from pathlib import Path
 from scipy.cluster.vq import kmeans
 import pyperclip
 import os
-basepath="/mnt/c/projects/flight_analysis/logs/2022_03_04/"
+from datetime import datetime
+from pathlib import Path
+
+logdir=Path("/mnt/c/projects/flight_analysis/logs/")
+
+dates = [datetime.strptime(p.stem, "%Y_%m_%d") for p in logdir.iterdir()]
+basepath = logdir / max(dates).strftime('%Y_%m_%d')
 
 def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path(basepath)):
     pilot_pos = input(instruction)
@@ -29,7 +35,7 @@ def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path(
     
 flight = None
 if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
-    flight = Flight.from_log(path_or_browse("Pilot Position Bin path or empty for browse\n"))#path_or_browse("Flight Log Bin path or empty for browse\n"))
+    flight = Flight.from_log(path_or_browse("flight log Bin path or empty for browse\n"))#path_or_browse("Flight Log Bin path or empty for browse\n"))
     c6on = Flight(flight.data.loc[flight.data.tx_controls_5>=1500])
     res = kmeans(c6on.read_fields(Fields.GLOBALPOSITION), 2)[0]
 
