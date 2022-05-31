@@ -1,7 +1,7 @@
 from tkinter.constants import N
 from flightdata import Flight, Fields
-from geometry import GPSPosition
-from flightanalysis import Box, Section
+from geometry import GPS
+from flightanalysis import Box, State
 from tkinter import filedialog
 import sys
 from pathlib import Path
@@ -13,7 +13,13 @@ from pathlib import Path
 
 logdir=Path("/mnt/c/projects/flight_analysis/logs/")
 
-dates = [datetime.strptime(p.stem, "%Y_%m_%d") for p in logdir.iterdir()]
+
+dates = []
+for p in logdir.iterdir():
+    try:
+        dates.append(datetime.strptime(p.stem, "%Y_%m_%d"))
+    except Exception as ex:
+        pass
 basepath = logdir / max(dates).strftime('%Y_%m_%d')
 
 def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path(basepath)):
@@ -40,15 +46,15 @@ if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
     res = kmeans(c6on.read_fields(Fields.GLOBALPOSITION), 2)[0]
 
 
-    p = GPSPosition(*res[0])
-    c = GPSPosition(*res[1])
+    p = GPS(*res[0])
+    c = GPS(*res[1])
 
 
 else:
     pilot = Flight.from_log(path_or_browse("Pilot Position Bin path or empty for browse\n"))
     centre = Flight.from_log(path_or_browse("Centre Position Bin path or empty for browse\n"))
-    p = GPSPosition(*pilot.read_fields(Fields.GLOBALPOSITION).iloc[-1])
-    c = GPSPosition(*centre.read_fields(Fields.GLOBALPOSITION).iloc[-1])
+    p = GPS(*pilot.read_fields(Fields.GLOBALPOSITION).iloc[-1])
+    c = GPS(*centre.read_fields(Fields.GLOBALPOSITION).iloc[-1])
 
 
 box = Box.from_points("new", p, c)
@@ -79,7 +85,7 @@ if input("create section csv?\n") in ["y", "Y", "yes"]:
     tx = tx.iloc[:,:5]
     tx.columns = ["throttle", "aileron_1", "aileron_2", "elevator", "rudder"]
 
-    sec = Section.from_flight(flight, box).append_columns(tx)
+    sec = State.from_flight(flight, box).append_columns(tx)
 
     sec.to_csv(path_or_browse("Save section csv location\n", filedialog.asksaveasfilename))
 #
