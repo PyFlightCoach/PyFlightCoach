@@ -6,5 +6,5 @@ loguru
 scipy>=1.7.1
 plotly
 fastdtw
-pymavlink
 pyperclip
+pymavlink
