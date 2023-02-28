@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-logdir=Path("/mnt/c/projects/flight_analysis/logs/")
+logdir=Path("/mnt/c/projects/flight_analysis/logs")
 
 
 dates = []
