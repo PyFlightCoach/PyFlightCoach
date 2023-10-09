@@ -1,0 +1,9 @@
+numpy
+pandas
+scipy
+pint
+fastdtw
+pymavlink
+pfc-geometry
+flightdata
+flightanalysis

@@ -12,9 +12,10 @@ if [ $varname == "n" ]; then
     conda activate $envname
 fi
 
+source install_submodules.sh
+
 while read requirement; 
 do 
     conda install --yes -c conda-forge $requirement || pip install $requirement 
 done < requirements.txt
 
-source install_submodules.sh

@@ -6,12 +6,11 @@ from tkinter import filedialog
 import sys
 from pathlib import Path
 from scipy.cluster.vq import kmeans
-import pyperclip
 import os
 from datetime import datetime
 from pathlib import Path
 
-logdir=Path("/mnt/c/projects/flight_analysis/logs")
+logdir=Path("~/projects/logs/")
 
 
 dates = []
@@ -63,8 +62,6 @@ print(p)
 print(c)
 print(box.to_dict())
 
-if input("f3a zone to clipboard?") in ["y", "Y", "yes"]:
-    pyperclip.copy(box.to_f3a_zone())  
 
 if input("save f3a zone?") in ["y", "Y", "yes"]:
     with open(Path(basepath) / "box.f3a" , "w") as f:

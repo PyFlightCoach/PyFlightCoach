@@ -1,0 +1,12 @@
+numpy
+pandas
+scipy
+pint
+fastdtw
+plotly
+pymavlink
+ardupilot-log-reader
+pfc-geometry
+flightdata
+flightanalysis
+flightplotting

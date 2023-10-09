@@ -1,6 +1,6 @@
 ## Precision Aerobatic Flight Post Processing Tools
 
-This project contains a collection of packages for working with flight data, principally aimed at plotting and analysing precision aerobatics. 
+This project contains a collection of packages for working with flight data. The work principally aimed at plotting and analysing precision aerobatics, but many of the tools are useful for other applications. 
 
 The idea is to compare recorded flight data to equivalent, perfect, generated flight data. The sequence definition is parsed and the sections of recorded data corresponding to the manoeuvres and elements in the definition are identified. New scaled templates are then created to match the flown data but corrected to reflect the judging criteria.
 
@@ -76,3 +76,10 @@ Note the submodules are interdependent, and currently not published anywhere els
 conda install ipykernel plotly ipywidgets
 
 python -m ipykernel install --user --name flightcoach
+
+
+## Docker
+
+docker build -t pyf .
+
+docker run --rm -it pyf /bin/bash
