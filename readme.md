@@ -80,6 +80,9 @@ python -m ipykernel install --user --name flightcoach
 
 ## Docker
 
+Build the docker image:\
 docker build -t pyf .
-
 docker run --rm -it pyf /bin/bash
+
+from docker hub:\
+thomasdavid/pyflightcoach:latest
