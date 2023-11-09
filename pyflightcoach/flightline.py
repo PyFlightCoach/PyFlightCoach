@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-logdir=Path("~/projects/logs/")
+logdir=Path("/home/td6834/projects/logs/")
 
 
 dates = []
