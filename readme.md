@@ -1,4 +1,4 @@
-## Precision Aerobatic Flight Post Processing Tools
+## Flight Data Analysis Tools
 
 This project contains a collection of packages for working with flight data. The work principally aimed at plotting and analysing precision aerobatics, but many of the tools are useful for other applications. 
 
