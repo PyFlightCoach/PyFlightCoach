@@ -40,7 +40,7 @@ def path_or_browse(instruction, meth = filedialog.askopenfilename, default=Path(
 flight = None
 if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
     flight = Flight.from_log(path_or_browse("flight log Bin path or empty for browse\n"))#path_or_browse("Flight Log Bin path or empty for browse\n"))
-    c6on = Flight(flight.data.loc[flight.data.rcin_c5>=1500])
+    c6on = Flight(flight.data.loc[flight.data.rcin_c6>=1500])
     res = kmeans(c6on.gps, 2)[0]
 
 
