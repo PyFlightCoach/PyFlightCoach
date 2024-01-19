@@ -8,6 +8,8 @@ from scipy.cluster.vq import kmeans
 import os
 from datetime import datetime
 from pathlib import Path
+import numpy as np
+
 
 logdir=Path("/home/td6834/projects/logs/")
 
@@ -41,11 +43,13 @@ flight = None
 if input("use channel 5 switch positions?") in ["y", "Y", "yes"]:
     flight = Flight.from_log(path_or_browse("flight log Bin path or empty for browse\n"))#path_or_browse("Flight Log Bin path or empty for browse\n"))
     c6on = Flight(flight.data.loc[flight.data.rcin_c6>=1500])
-    res = kmeans(c6on.gps, 2)[0]
-
-
-    p = GPS(*res[0])
-    c = GPS(*res[1])
+    
+    groups = np.cumsum(c6on.time_flight.diff() >=1)
+    
+    
+    p = GPS(c6on.gps[groups==0])[-1]
+    c = GPS(c6on.gps[groups==1])[-1]
+    
 
 
 else:
