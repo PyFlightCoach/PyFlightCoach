@@ -1,15 +1,15 @@
 [submodule "ArdupilotLogReader"]
 	path = ArdupilotLogReader
-	url = https://github.com/PyFlightCoach/ArdupilotLogReader.git
+	url = ../ArdupilotLogReader.git
 [submodule "FlightData"]
 	path = FlightData
-	url = https://github.com/PyFlightCoach/FlightData.git
+	url = ../FlightData.git
 [submodule "geometry"]
 	path = geometry
-	url = https://github.com/PyFlightCoach/geometry.git
+	url = ../geometry.git
 [submodule "FlightAnalysis"]
 	path = FlightAnalysis
-	url = https://github.com/PyFlightCoach/FlightAnalysis.git
+	url = ../FlightAnalysis.git
 [submodule "FlightPlotting"]
 	path = FlightPlotting
-	url = https://github.com/PyFlightCoach/FlightPlotting.git
+	url = ../FlightPlotting.git
