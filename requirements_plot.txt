@@ -3,10 +3,11 @@ pandas
 scipy
 pint
 fastdtw
-plotly
 pymavlink
-ardupilot-log-reader
-pfc-geometry
-flightdata
-flightanalysis
-flightplotting
+simplejson
+plotly
+pfc-geometry==0.2.4
+flightdata==0.2.6
+flightanalysis==0.2.6
+ardupilot-log-reader==0.2.1
+flightplotting==0.2.3

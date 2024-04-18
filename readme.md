@@ -55,34 +55,24 @@ source make_conda_env.sh
 
 ### Easy setup (with venv) & Bash:
 
-python -m venv env
-source env/bin/activate
-pip install -r requirements.txt
-source install_submodules.sh
+python -m venv env\
+source env/bin/activate\
+pip install -r requirements.txt\
+source install_submodules.sh\
 
 ### To setup manually
 
-install the requirements in requirements.txt, then cd to each submodule and do: python setup.py develop.
-Note the submodules are interdependent, and currently not published anywhere else, so you need to install them in order:
-1 ArdupilotLogReader,
-2 FlightData,
-3 geometry,
-4 FlightAnalysis,
-5 FlightPlotting
+install the requirements in requirements.txt, then cd to each submodule and do: "pip install -e .".\
 
-
-## To use the environment in a jupyter notebook
-
-conda install ipykernel plotly ipywidgets
-
-python -m ipykernel install --user --name flightcoach
 
 
 ## Docker
 
 Build the docker image:\
-docker build -t pyf .
-docker run --rm -it pyf /bin/bash
+'''bash
+    docker build -t pyf .
+    docker run --rm -it pyf /bin/bash
+'''
 
 from docker hub:\
 thomasdavid/pyflightcoach:latest

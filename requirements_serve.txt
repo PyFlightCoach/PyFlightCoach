@@ -4,8 +4,8 @@ scipy
 pint
 fastdtw
 pymavlink
-pfc-geometry
-flightdata
-flightanalysis
 simplejson
-ardupilot-log-reader
+pfc-geometry==0.2.4
+flightdata==0.2.6
+flightanalysis==0.2.6
+ardupilot-log-reader==0.2.1
