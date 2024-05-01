@@ -1,11 +1,9 @@
 numpy
 pandas
 scipy
-pint
 fastdtw
-pymavlink
 simplejson
-pfc-geometry==0.2.4
-flightdata==0.2.6
-flightanalysis==0.2.6
-ardupilot-log-reader==0.2.1
+pfc-geometry==0.2.5
+flightdata==0.2.7
+flightanalysis==0.2.7
+ardupilot-log-reader==0.3.1
