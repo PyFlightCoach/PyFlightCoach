@@ -1,0 +1,11 @@
+numpy
+pandas
+fastdtw
+simplejson
+pymavlink
+pfc-geometry==0.2.5
+flightdata==0.2.7
+flightanalysis==0.2.7
+ardupilot-log-reader==0.3.1
+droneinterface==0.0.4
+flightplotting==0.2.4

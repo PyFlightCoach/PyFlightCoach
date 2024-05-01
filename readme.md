@@ -8,6 +8,7 @@ The following packages are included:
 - **flightdata** - Datastructures for handling flight data
 - **flightanalysis** - Tools for performing analysis on the flight data, such as rotating to a flightline, generating template flight data, parsing a sequence and aligning the generated template data to the flown data.
 - **flightplotting** - Handy tools for creating plotly plots of the flightdata objects.
+- **droneinterface** - A tidy way to communicate with a UAV using pymavlink and the pyflightcoach tools. 
 
 <img src="comet.png" alt="drawing" width="49%"/>
 <img src="sql.png" alt="drawing" width="49%"/>
@@ -19,6 +20,7 @@ pip install pfc-geometry
 pip install flightdata
 pip install flightanalysis
 pip install flightplotting
+pip install droneinterface
 ```
 
 ### Cloning
@@ -39,7 +41,7 @@ source make_conda_env.sh
 ```bash
 python -m venv env
 source env/bin/activate
-pip install -r requirements.txt
+pip install -r requirements_plot.txt
 source install_submodules.sh
 ```
 ### To setup manually

@@ -13,3 +13,6 @@
 [submodule "FlightPlotting"]
 	path = FlightPlotting
 	url = ../FlightPlotting.git
+[submodule "DroneInterface"]
+	path = DroneInterface
+	url = git@github.com:PyFlightCoach/DroneInterface.git
