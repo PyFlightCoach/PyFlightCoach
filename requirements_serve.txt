@@ -3,7 +3,7 @@ pandas
 scipy
 fastdtw
 simplejson
-pfc-geometry==0.2.5
-flightdata==0.2.7
-flightanalysis==0.2.7
-ardupilot-log-reader==0.3.1
+joblib
+pfc-geometry==0.2.6
+flightdata==0.2.10
+flightanalysis==0.2.9
