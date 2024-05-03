@@ -1,9 +1,1 @@
-numpy
-pandas
-scipy
-fastdtw
-simplejson
-joblib
-pfc-geometry==0.2.6
-flightdata==0.2.10
-flightanalysis==0.2.9
+flightanalysis==0.2.10
