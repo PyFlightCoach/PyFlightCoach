@@ -1,6 +1,6 @@
 for SUBMODULE in ArdupilotLogReader FlightData geometry FlightAnalysis FlightPlotting
 do
     cd $SUBMODULE
-    python setup.py develop
+    pip install -e .
     cd ..
 done
