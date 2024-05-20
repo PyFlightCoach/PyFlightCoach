@@ -1,6 +1,6 @@
-for SUBMODULE in ArdupilotLogReader FlightData geometry FlightAnalysis FlightPlotting
+for SUBMODULE in ArdupilotLogReader geometry FlightData FlightAnalysis FlightPlotting
 do
     cd $SUBMODULE
-    pip install -e .
+    conda develop .
     cd ..
 done

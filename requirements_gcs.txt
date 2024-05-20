@@ -1,4 +1,4 @@
 pymavlink
-flightanalysis==0.2.10
+flightanalysis==0.2.13
 droneinterface==0.0.5
 flightplotting==0.2.5
