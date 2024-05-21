@@ -14,6 +14,7 @@ The following packages are included:
 <img src="sql.png" alt="drawing" width="49%"/>
 
 ### Install from pypi
+pip install the packages you want to use inside a virtual environment with python >=3.12.
 ```bash
 pip install ardupilot-log-reader
 pip install pfc-geometry
@@ -30,27 +31,28 @@ git clone --recurse-submodules https://github.com/PyFlightCoach/PyFlightCoach.gi
 ```
 If you forget to use the --recurse-submodules option then do this:
 ```bash
-git submodule update --init --recursive
+cd PyFlightCoach
+git submodule init
+git submodule update
 ```
-
 ### Easy setup (with conda):
+Install conda as described here: https://docs.anaconda.com/free/miniconda/miniconda-install/
+
+Then:
+
 ```bash
 source make_conda_env.sh
 ```
-### Easy setup (with venv):
-```bash
-python -m venv env
-source env/bin/activate
-pip install -r requirements_plot.txt
-source install_submodules.sh
-```
-### To setup manually
 
-install the requirements in requirements.txt, then cd to each submodule and do: 
+### To setup manually
+In a virtual environment with python >= 3.12, install the requirements in requirements.txt, then cd to each submodule and do: 
 ```bash
 pip install -e .
 ```
-
+or 
+```bash
+conda-develop .
+```
 ## Docker
 
 Build the docker image:

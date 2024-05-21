@@ -4,6 +4,12 @@ LABEL maintainer "Thomas David, thomasdavid0@gmail.com"
 
 WORKDIR /usr/src
 
-COPY requirements_serve.txt /
+COPY requirements.txt /
 RUN pip install --upgrade pip
-RUN pip install -r /requirements_serve.txt
+RUN pip install -r /requirements.txt
+RUN pip install ardupilot-log-reader
+RUN pip install pfc-geometry
+RUN pip install flightdata
+RUN pip install flightanalysis
+RUN pip install flightplotting
+RUN pip install droneinterface

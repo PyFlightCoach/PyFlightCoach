@@ -1,0 +1,9 @@
+numpy
+pandas
+pymavlink
+simplejson
+scipy
+fastdtw
+loguru
+joblib
+plotly

@@ -7,7 +7,7 @@ if [ $varname == "n" ]; then
     echo enter new env name
     read envname
 
-    conda create -n $envname python=3.12
+    conda create -n $envname python=3.12 --yes 
     conda init bash
     conda activate $envname
 fi

@@ -1,5 +1,0 @@
-plotly
-pymavlink
-ardupilot-log-reader==0.3.2
-flightanalysis==0.2.13
-flightplotting==0.2.5
