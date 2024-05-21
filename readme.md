@@ -33,25 +33,32 @@ If you forget to use the --recurse-submodules option then do this:
 git submodule update --init --recursive
 ```
 
-### Easy setup (with conda):
+### Environment Setup
+
+#### Conda
+Ensure you have a sane conda & conda-build environment by following the instructions [here](https://docs.conda.io/projects/conda-build/en/stable/install-conda-build.html).
+
 ```bash
-source make_conda_env.sh
+chmod +x make_conda_env.sh
+./make_conda_env.sh
 ```
-### Easy setup (with venv):
+
+#### Python venv
 ```bash
 python -m venv env
 source env/bin/activate
 pip install -r requirements_plot.txt
 source install_submodules.sh
 ```
-### To setup manually
+
+#### Manual
 
 install the requirements in requirements.txt, then cd to each submodule and do: 
 ```bash
 pip install -e .
 ```
 
-## Docker
+### Docker
 
 Build the docker image:
 ```bash
