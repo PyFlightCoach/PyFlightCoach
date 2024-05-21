@@ -13,9 +13,3 @@ if [ $varname == "n" ]; then
 fi
 
 source install_submodules.sh
-
-while read requirement; 
-do 
-    conda install --yes -c conda-forge $requirement || pip install $requirement 
-done < requirements_plot.txt
-
