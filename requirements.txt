@@ -7,4 +7,3 @@ fastdtw
 loguru
 joblib
 plotly
-joblib
