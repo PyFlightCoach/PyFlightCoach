@@ -7,3 +7,4 @@ fastdtw
 loguru
 joblib
 plotly
+pydantic
