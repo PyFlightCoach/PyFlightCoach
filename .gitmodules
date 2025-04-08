@@ -1,18 +1,18 @@
-[submodule "ArdupilotLogReader"]
-	path = ArdupilotLogReader
-	url = ../ArdupilotLogReader.git
-[submodule "FlightData"]
-	path = FlightData
-	url = ../FlightData.git
-[submodule "geometry"]
-	path = geometry
-	url = ../geometry.git
-[submodule "FlightAnalysis"]
-	path = FlightAnalysis
-	url = ../FlightAnalysis.git
-[submodule "FlightPlotting"]
-	path = FlightPlotting
-	url = ../FlightPlotting.git
-[submodule "DroneInterface"]
-	path = DroneInterface
+[submodule "packages/ArdupilotLogReader"]
+	path = packages/ArdupilotLogReader
+	url = git@github.com:PyFlightCoach/ArdupilotLogReader.git
+[submodule "packages/FlightData"]
+	path = packages/FlightData
+	url = git@github.com:PyFlightCoach/FlightData.git
+[submodule "packages/geometry"]
+	path = packages/geometry
+	url = git@github.com:PyFlightCoach/geometry.git
+[submodule "packages/DroneInterface"]
+	path = packages/DroneInterface
 	url = git@github.com:PyFlightCoach/DroneInterface.git
+[submodule "packages/Schemas"]
+	path = packages/Schemas
+	url = git@github.com:PyFlightCoach/Schemas.git
+[submodule "packages/Plotting"]
+	path = packages/Plotting
+	url = git@github.com:PyFlightCoach/Plotting.git
